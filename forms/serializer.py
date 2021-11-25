@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CheckList, Formulario, Ingreso, Tractor, Cajas
+from .models import CheckList, Formulario, Ingreso, RevisionCanina, Tractor, Cajas
 
 class FormSerializer(serializers.ModelSerializer):
 
@@ -45,10 +45,11 @@ class FormDetailsSerializer(serializers.ModelSerializer):
     cajas = serializers.SerializerMethodField('get_data_cajas')
     ingreso = serializers.SerializerMethodField('get_data_ingreso')
     checklist = serializers.SerializerMethodField('get_data_checklist')
+    revision_canina = serializers.SerializerMethodField('get_data_revision_canina')
 
     class Meta:
         model = Formulario
-        fields = ['form', 'tractor', 'cajas', 'ingreso', 'checklist']
+        fields = ['form', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
 
     def get_me(self, Formulario):
         shipment = self.context['request'].GET.get('shipment')
@@ -175,5 +176,32 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "guardia_entrada": checklist.guardia_entrada,
             "guardia_salida": checklist.guardia_salida,
 
+        }
+        return data
+
+    def get_data_revision_canina(self, Formulario):
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
+        revision_can = RevisionCanina.objects.get(id_formulario = form.pk)
+        data =  {
+            "patio": revision_can.patio,
+            "cliente": revision_can.cliente,
+            "nombre_k9": revision_can.nombre_k9,
+            "PR_defensa": revision_can.PR_defensa,
+            "PR_motor": revision_can.PR_motor,
+            "PR_piso_cabina": revision_can.PR_piso_cabina,
+            "PR_tanque_combustible": revision_can.PR_tanque_combustible,
+            "PR_llantas_rines": revision_can.PR_llantas_rines,
+            "PR_flecha": revision_can.PR_flecha,
+            "PR_cabina": revision_can.PR_cabina,
+            "PR_tanque_aire": revision_can.PR_tanque_aire,
+            "PR_mofles": revision_can.PR_mofles,
+            "PR_equipo_refrigeracion": revision_can.PR_equipo_refrigeracion,
+            "PR_quinta_rueda": revision_can.PR_quinta_rueda,
+            "PR_chasis": revision_can.PR_chasis,
+            "PR_puertas_traseras": revision_can.PR_puertas_traseras,
+            "PR_paredes_techo": revision_can.PR_paredes_techo,
+            "PR_piso_caja": revision_can.PR_piso_caja,
+            "descripcion_hallazgo": revision_can.descripcion_hallazgo,
         }
         return data

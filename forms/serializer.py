@@ -8,10 +8,11 @@ class FormSerializer(serializers.ModelSerializer):
     destino = serializers.SerializerMethodField('get_destiny')
     placas_tractor = serializers.SerializerMethodField('get_placas_tractor')
     placas_caja = serializers.SerializerMethodField('get_placas_caja')
+    isOk = serializers.SerializerMethodField('get_is_ok')
 
     class Meta:
         model = Formulario
-        fields = ['pk', 'destino', 'placas_tractor', 'placas_caja', 'guardia', 'operador', 'creado', 'modificado', 'creado_por',]
+        fields = ['pk', 'destino', 'placas_tractor', 'placas_caja', 'guardia', 'operador', 'creado', 'modificado', 'creado_por', 'isOk']
     
     def get_full_name(self, Formulario):
         creado_por = Formulario.creado_por
@@ -34,6 +35,9 @@ class FormSerializer(serializers.ModelSerializer):
         cajas = Cajas.objects.get(id_formulario = formulario_actual)
         numero_caja = cajas.numero_caja
         return str(numero_caja)
+
+    def get_is_ok(self, Formulario):
+        return True
 
 class FormDetailsSerializer(serializers.ModelSerializer):
     form = serializers.SerializerMethodField('get_data_form')
@@ -61,6 +65,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "operador": form.operador,
             "creado": form.creado,
             "modificado": form.modificado,
+            "isOk": True
         }
         return data
     

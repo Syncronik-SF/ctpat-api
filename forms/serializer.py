@@ -51,12 +51,12 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         fields = ['form', 'tractor', 'cajas', 'ingreso', 'checklist']
 
     def get_me(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        return str(me)
+        shipment = self.context['request'].GET.get('shipment')
+        return str(shipment)
     
     def get_data_form(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        form = Formulario.__class__.objects.get(pk = me)
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
         tractor = Tractor.objects.get(id_formulario = form.pk)
         data = {
             "form_id" : form.pk,
@@ -70,8 +70,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         return data
     
     def get_data_tractor(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        form = Formulario.__class__.objects.get(pk = me)
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
         tractor = Tractor.objects.get(id_formulario = form.pk)
         data =  {
                 "linea_transporte": tractor.linea_transporte,
@@ -82,8 +82,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         return data
 
     def get_data_cajas(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        form = Formulario.__class__.objects.get(pk = me)
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
         cajas = Cajas.objects.get(id_formulario = form.pk)
         data =  {
                 "linea_de_caja": cajas.linea_de_caja,
@@ -93,8 +93,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         return data
 
     def get_data_ingreso(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        form = Formulario.__class__.objects.get(pk = me)
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
         ingreso = Ingreso.objects.get(id_formulario = form.pk)
         data =  {
                 "autorizado_por": ingreso.autorizado_por,
@@ -108,8 +108,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         return data
     
     def get_data_checklist(self, Formulario):
-        me = self.context['request'].GET.get('me')
-        form = Formulario.__class__.objects.get(pk = me)
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
         checklist = CheckList.objects.get(id_formulario = form.pk)
         data = {
             "numero_cajas_embarque": checklist.numero_cajas_embarque,

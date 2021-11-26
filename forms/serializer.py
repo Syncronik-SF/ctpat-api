@@ -62,6 +62,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         tractor = Tractor.objects.get(id_formulario = form.pk)
         cajas = Cajas.objects.get(id_formulario = form.pk)
         ingreso = Ingreso.objects.get(id_formulario = form.pk)
+        checklist = CheckList.objects.get(id_formulario = form.pk)
         data = {
             "ID Formulario" : form.pk,
             "Creado por": form.creado_por.get_full_name_user(),
@@ -83,6 +84,11 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Número de sello": ingreso.numero_sello,
             "Sello entregado a": ingreso.sello_entregado_a,
             "Destino": ingreso.destino,
+            "Sello": checklist.DS_sello,
+            "Número de cajas de embarque": checklist.numero_cajas_embarque,
+            "Comentarios" : checklist.comentarios,
+            "Guardia de Entrada": checklist.guardia_entrada,
+            "Guardia de Salida": checklist.guardia_salida,
             "Es exportación a EU": ingreso.es_exportacion,
         }
         return data
@@ -145,14 +151,13 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         form = Formulario.__class__.objects.get(pk = shipment)
         checklist = CheckList.objects.get(id_formulario = form.pk)
         data = {
-            "numero_cajas_embarque": checklist.numero_cajas_embarque,
+            
             "DE_tarjeta_circulacion": checklist.DE_tarjeta_circulacion,
             "DE_seguro_obligatorio": checklist.DE_seguro_obligatorio,
             "DE_placas_fisicas": checklist.DE_placas_fisicas,
             "DE_licencia_federal": checklist.DE_licencia_federal,
             "DS_doc_embarque": checklist.DS_doc_embarque,
             "DS_aut_embarque": checklist.DS_aut_embarque,
-            "DS_sello": checklist.DS_sello,
             "IN_det_k9": checklist.IN_det_k9,
             "IN_incumplimiento_cl": checklist.IN_incumplimiento_cl,
             "IN_estado_inconveniente": checklist.IN_estado_inconveniente,
@@ -203,10 +208,6 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "CGTS_olores_ext": checklist.CGTS_olores_ext,
             "CGTS_humedad": checklist.CGTS_humedad,
             "CGTS_obj_sust_ext": checklist.CGTS_obj_sust_ext,
-
-            "comentarios" : checklist.comentarios,
-            "guardia_entrada": checklist.guardia_entrada,
-            "guardia_salida": checklist.guardia_salida,
 
         }
         return data

@@ -50,7 +50,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Formulario
-        fields = ['resumen','form', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
+        fields = ['resumen', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
 
     def get_me(self, Formulario):
         shipment = self.context['request'].GET.get('shipment')
@@ -63,7 +63,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         data = {
             {"form_id" : form.pk},
             {"creado_por": form.creado_por.get_full_name_user()},
-           { "guardia": form.guardia},
+            {"guardia": form.guardia},
             {"operador": form.operador},
             {"creado": form.creado},
             {"modificado": form.modificado},

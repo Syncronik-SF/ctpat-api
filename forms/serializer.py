@@ -40,6 +40,7 @@ class FormSerializer(serializers.ModelSerializer):
         return True
 
 class FormDetailsSerializer(serializers.ModelSerializer):
+    resumen = serializers.SerializerMethodField('get_resumen')
     form = serializers.SerializerMethodField('get_data_form')
     tractor = serializers.SerializerMethodField('get_data_tractor')
     cajas = serializers.SerializerMethodField('get_data_cajas')
@@ -49,11 +50,26 @@ class FormDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Formulario
-        fields = ['form', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
+        fields = ['resumen','form', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
 
     def get_me(self, Formulario):
         shipment = self.context['request'].GET.get('shipment')
         return str(shipment)
+
+    def get_resumen(self, Formulario):
+        shipment = self.context['request'].GET.get('shipment')
+        form = Formulario.__class__.objects.get(pk = shipment)
+        tractor = Tractor.objects.get(id_formulario = form.pk)
+        data = {
+            {"form_id" : form.pk},
+            {"creado_por": form.creado_por.get_full_name_user()},
+           { "guardia": form.guardia},
+            {"operador": form.operador},
+            {"creado": form.creado},
+            {"modificado": form.modificado},
+            {"isOk": True}
+        }
+        return data
     
     def get_data_form(self, Formulario):
         shipment = self.context['request'].GET.get('shipment')

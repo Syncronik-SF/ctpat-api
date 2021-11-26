@@ -41,10 +41,10 @@ class FormSerializer(serializers.ModelSerializer):
 
 class FormDetailsSerializer(serializers.ModelSerializer):
     resumen = serializers.SerializerMethodField('get_resumen')
-    form = serializers.SerializerMethodField('get_data_form')
-    tractor = serializers.SerializerMethodField('get_data_tractor')
-    cajas = serializers.SerializerMethodField('get_data_cajas')
-    ingreso = serializers.SerializerMethodField('get_data_ingreso')
+    #form = serializers.SerializerMethodField('get_data_form')
+    #tractor = serializers.SerializerMethodField('get_data_tractor')
+    #cajas = serializers.SerializerMethodField('get_data_cajas')
+    #ingreso = serializers.SerializerMethodField('get_data_ingreso')
     checklist = serializers.SerializerMethodField('get_data_checklist')
     revision_canina = serializers.SerializerMethodField('get_data_revision_canina')
 

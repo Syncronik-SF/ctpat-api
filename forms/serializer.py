@@ -63,7 +63,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         cajas = Cajas.objects.get(id_formulario = form.pk)
         ingreso = Ingreso.objects.get(id_formulario = form.pk)
         data = {
-            "form_id" : form.pk,
+            "ID Formulario" : form.pk,
             "Creado por": form.creado_por.get_full_name_user(),
             "Guardia": form.guardia,
             "Operador": form.operador,

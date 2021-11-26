@@ -41,7 +41,7 @@ class FormSerializer(serializers.ModelSerializer):
 
 class FormDetailsSerializer(serializers.ModelSerializer):
     resumen = serializers.SerializerMethodField('get_resumen')
-    #form = serializers.SerializerMethodField('get_data_form')
+    form = serializers.SerializerMethodField('get_data_form')
     tractor = serializers.SerializerMethodField('get_data_tractor')
     cajas = serializers.SerializerMethodField('get_data_cajas')
     ingreso = serializers.SerializerMethodField('get_data_ingreso')
@@ -50,7 +50,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Formulario
-        fields = ['resumen', 'tractor', 'cajas', 'ingreso', 'checklist', 'revision_canina']
+        fields = ['resumen', 'checklist', 'revision_canina']
 
     def get_me(self, Formulario):
         shipment = self.context['request'].GET.get('shipment')
@@ -60,14 +60,22 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         shipment = self.context['request'].GET.get('shipment')
         form = Formulario.__class__.objects.get(pk = shipment)
         tractor = Tractor.objects.get(id_formulario = form.pk)
+        cajas = Cajas.objects.get(id_formulario = form.pk)
         data = {
-            {"form_id" : form.pk},
-            {"creado_por": form.creado_por.get_full_name_user()},
-            {"guardia": form.guardia},
-            {"operador": form.operador},
-            {"creado": form.creado},
-            {"modificado": form.modificado},
-            {"isOk": True}
+            "form_id" : form.pk,
+            "creado_por": form.creado_por.get_full_name_user(),
+            "guardia": form.guardia,
+            "operador": form.operador,
+            "creado": form.creado,
+            "modificado": form.modificado,
+            "isOk": True,
+            "linea_transporte": tractor.linea_transporte,
+            "marca_tractor": tractor.marca_tractor,
+            "numero_placas": tractor.numero_placas,
+            "no_economico": tractor.no_economico,
+            "linea_de_caja": cajas.linea_de_caja,
+            "numero_caja": cajas.numero_caja,
+            "placas": cajas.placas,
         }
         return data
     

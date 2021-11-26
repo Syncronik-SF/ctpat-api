@@ -61,6 +61,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         form = Formulario.__class__.objects.get(pk = shipment)
         tractor = Tractor.objects.get(id_formulario = form.pk)
         cajas = Cajas.objects.get(id_formulario = form.pk)
+        ingreso = Ingreso.objects.get(id_formulario = form.pk)
         data = {
             "form_id" : form.pk,
             "creado_por": form.creado_por.get_full_name_user(),
@@ -76,6 +77,13 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "linea_de_caja": cajas.linea_de_caja,
             "numero_caja": cajas.numero_caja,
             "placas": cajas.placas,
+            "autorizado_por": ingreso.autorizado_por,
+            "factura": ingreso.factura,
+            "numero_pallets": ingreso.numero_pallets,
+            "numero_sello": ingreso.numero_sello,
+            "sello_entregado_a": ingreso.sello_entregado_a,
+            "destino": ingreso.destino,
+            "es_exportacion": ingreso.es_exportacion,
         }
         return data
     

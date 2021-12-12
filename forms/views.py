@@ -12,6 +12,7 @@ from authentication.models import CustomUser
 from .serializer import FormSerializer, FormDetailsSerializer
 from .models import Tractor
 from forms.models import Formulario
+from rest_framework_api_key.permissions import HasAPIKey
 
 # Create your views here.
 def ping(request):
@@ -37,6 +38,7 @@ class CreateForm(APIView):
         return Response({"msg":"Form has been created"}, status=status.HTTP_200_OK)
 
 class GetForms(ModelViewSet):
+    permission_classes = [HasAPIKey]
     serializer_class = FormSerializer
     queryset = Formulario.objects.all()
 

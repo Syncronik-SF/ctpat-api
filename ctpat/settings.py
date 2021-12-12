@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-9ul&vfuk6fpf2uuj245t@3^ond@=7ypsq6lsv&o!*jt5p^-7ha
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+ 
 
-
+# APIKEY = TzMKJVoE.1bcN3fRTRZnDSO4IlJ6gvblHl2J7KBf5
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     # Third apps
     'rest_framework',
     'rest_framework.authtoken',
+    "rest_framework_api_key",
 
     # Custom applications
     'authentication',

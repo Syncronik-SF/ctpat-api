@@ -15,11 +15,12 @@ from rest_framework.viewsets import ModelViewSet
 
 # Models 
 from authentication.models import CustomUser, Profile
+from rest_framework_api_key.permissions import HasAPIKey
 # Serializers
 from authentication.serializer import MembersSerializer, RegisterSerializer, UserProfileSerializer, UserSerializer
 
 class LoginView(generics.GenericAPIView):
-    authentication_classes = (CsrfExemptTokenAuthentication,)
+    authentication_classes = (CsrfExemptTokenAuthentication, HasAPIKey)
     serializer_class = UserSerializer
     def post(self, request, format=None):
         serializer = self.get_serializer(data=request.data)

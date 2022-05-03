@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # Third apps
     'rest_framework',
     'rest_framework.authtoken',
-    "rest_framework_api_key",
+    'rest_framework_api_key',
 
     # Custom applications
     'authentication',

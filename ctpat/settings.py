@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 
     # Custom applications
     'authentication',
-    'forms'
+    'forms',
+    'incidence'
 ]
 
 REST_FRAMEWORK = {
@@ -144,3 +145,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Model of authetntication
 AUTH_USER_MODEL = "authentication.CustomUser"
+
+
+MEDIA_ROOT = BASE_DIR / 'uploads'

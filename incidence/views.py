@@ -1,11 +1,5 @@
-from turtle import title
-from django.shortcuts import render
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics, status
-from authentication.models import CustomUser
-from .models import Incidence
-from forms.models import CheckList
+from rest_framework import status
 from rest_framework.decorators import api_view
 from incidence.serializers import  IncidenceSerializer
 
@@ -26,11 +20,3 @@ def incidence_post(request):
     
     
     
-    # title = request.data.get['title']
-    # descripcion = request.data.get['descripcion']
-    # fecha = request.data.get['fecha']
-    # hour = request.data.get['hour']
-        
-
-
-

@@ -1,10 +1,16 @@
 from incidence import views
 from django.urls import path
-from .views import incidence_post
+from .views import *
 
 
 
 
 urlpatterns = [
-    path('', views.incidence_post)
+    path('create/', views.incidence_post),
+    path('update/<pk>',views.incidence_update),
+    path('delete/<pk>',views.incidence_delete),
+    
+
+
+
  ] #Crea incidence

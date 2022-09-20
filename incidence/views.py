@@ -55,6 +55,8 @@ class Datelist(generics.ListAPIView):
       date = self.request.query_params.get('date')
       queryset = Incidence.objects.filter(date=date)
       return queryset
+
+
 class AllIncidence(generics.ListAPIView):
     queryset = Incidence.objects.all()
     serializer_class = IncidenceSerializer

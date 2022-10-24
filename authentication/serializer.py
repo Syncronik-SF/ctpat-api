@@ -8,7 +8,7 @@ from authentication.models import CustomUser, Profile
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id','email','password','first_name', 'last_name', 'phone')
+        fields = ('id','email','password','first_name', 'last_name', 'phone', 'job_title')
         extra_kwargs = {
             'password':{'write_only': True},
         }
@@ -21,6 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                first_name=validated_data['first_name'],  
                last_name=validated_data['last_name'],
                phone = validated_data['phone'],
+               job_title = validated_data['job_title']
                )
         return user
     

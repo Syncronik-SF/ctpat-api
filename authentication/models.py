@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
     """
     email = models.EmailField(max_length=150, unique=True)
     phone = models.CharField(max_length=120, blank=True)
+    job_title = models.CharField(max_length=40, null=True, blank=True)
     
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

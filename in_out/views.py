@@ -21,7 +21,7 @@ class ListAllRegister(generics.ListAPIView):
     
     serializer_class = RegisterInOutSerializer
     def get_queryset(self):
-        queryset = RegisterInOut.objects.all()
+        queryset = RegisterInOut.objects.order_by('dt_in')[::-1]
         return queryset
     
     

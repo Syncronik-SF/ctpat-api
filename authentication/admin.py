@@ -7,6 +7,12 @@ from authentication.models import Profile
 
 @admin.register(get_user_model())
 class CustomUserAdmin(UserAdmin):
-    pass
+    list_display = ('id', 'first_name', 'last_name', 'job_title')
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'password', 'first_name', 'last_name', 'job_title')
+        }),
+    )
+    
 
 admin.site.register(Profile)

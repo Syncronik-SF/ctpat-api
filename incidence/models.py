@@ -9,7 +9,6 @@ from django.core.validators import FileExtensionValidator
 class Incidence(models.Model):
     '''Model for get the register of incidence'''
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
-    incidencias = models.ForeignKey( CheckList, on_delete=models.DO_NOTHING)
     
     title= models.CharField(max_length=50)
     descripcion = models.TextField(default="",null=True, blank=True)

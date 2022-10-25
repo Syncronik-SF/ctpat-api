@@ -29,8 +29,8 @@ class ListRegisterByDate(generics.ListAPIView):
     
     serializer_class = RegisterInOutSerializer
     def get_queryset(self):
-        data = self.request.query_params.get('date')
-        queryset = RegisterInOut.objects.filter(dt_in = data)
+        date = self.request.query_params.get('date')
+        queryset = RegisterInOut.objects.filter(dt_in__date = date)
         return queryset
     
     
@@ -41,4 +41,22 @@ class ListRegisterWithoutOut(generics.ListAPIView):
         queryset = RegisterInOut.objects.filter(dt_out=None)
         return queryset
 
-    
+
+class RegisterOutAPI(APIView):
+    def put(self, request, register_id):
+        dt_out = dateparse.parse_datetime(request.data['dt_out'])
+        
+        try:
+            register = RegisterInOut.objects.get(id = register_id)
+            register.dt_out = dt_out
+            register.save()
+            data = {"code": 200, "msg": "Registro de salida añadido"}
+            code = status.HTTP_200_OK
+        except Exception as err:
+            print(err)
+            data = {"code": 404, "msg": "Registro no encontrado"}
+            code = status.HTTP_404_NOT_FOUND
+        return Response(data, status = code)
+            
+            
+            

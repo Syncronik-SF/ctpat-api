@@ -14,7 +14,7 @@ urlpatterns = [
     path('api/v1/', include(('forms.urls', 'forms'))),
     path('api/v1/generate_token/', views.obtain_auth_token),
     path('api/v1/incidence/', include('incidence.urls')),
-    path('api/v1/in-out', include('in_out.urls')),
+    path('api/v1/in-out/', include('in_out.urls')),
 ]
 
 if settings.DEBUG:

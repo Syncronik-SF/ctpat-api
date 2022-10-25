@@ -1,22 +1,44 @@
-from rest_framework import status 
+from rest_framework import status, generics 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils import dateparse 
 
+from .serializers import RegisterInOutSerializer
 from .models import *
 
-class RegisterInOutAPI(APIView):
+class RegisterInAPI(APIView):
     def post(self, request):
-        option_id = int(request.data['option_id'])
         full_name = request.data['full_name']
         phone = request.data['phone']
-        date = dateparse.parse_date(request.data['date'])
-        time = dateparse.parse_time(request.data['time'])
+        dt_in = dateparse.parse_datetime(request.data['dt_in'])
         
-        option = InOut.objects.get(id = option_id)
+        RegisterInOut.objects.create(full_name = full_name, phone = phone, dt_in = dt_in)
         
-        RegisterInOut(option = option, full_name = full_name, phone = phone, date = date, time = time)
+        return Response({"code": 201, "msg": f"Registro de entrada guardado"}, status=status.HTTP_201_CREATED)
         
-        return Response({"code": 201, "msg": f"Registro de {option.option} guardado"})
-        
-        
+
+class ListAllRegister(generics.ListAPIView):
+    
+    serializer_class = RegisterInOutSerializer
+    def get_queryset(self):
+        queryset = RegisterInOut.objects.all()
+        return queryset
+    
+    
+class ListRegisterByDate(generics.ListAPIView):
+    
+    serializer_class = RegisterInOutSerializer
+    def get_queryset(self):
+        data = self.request.query_params.get('date')
+        queryset = RegisterInOut.objects.filter(dt_in = data)
+        return queryset
+    
+    
+class ListRegisterWithoutOut(generics.ListAPIView):
+    
+    serializer_class = RegisterInOutSerializer
+    def get_queryset(self):
+        queryset = RegisterInOut.objects.filter(dt_out=None)
+        return queryset
+
+    

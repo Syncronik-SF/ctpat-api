@@ -33,13 +33,13 @@ class CreateForm(APIView):
         # Create tractor entity
         linea_transporte = request.data['linea_transporte']
         marca_tractor = request.data['marca_tractor']
-        numero_placas = request.data['numero_placas']
+        numero_placas = request.data['numero_placas_tractor']
         created_tractor = Tractor.objects.create(id_formulario = formulario, linea_transporte = linea_transporte, marca_tractor = marca_tractor, numero_placas = numero_placas)
         
         # Create caja entity
         linea_de_caja = request.data['linea_de_caja']
         numero_caja = request.data['numero_caja']
-        placas = request.data['numero_placas']
+        placas = request.data['numero_placas_caja']
         created_caja = Cajas.objects.create(id_formulario = formulario, linea_de_caja = linea_de_caja, numero_caja = numero_caja, placas = placas)
         
         # Create ingreso entity
@@ -148,7 +148,7 @@ class CreateForm(APIView):
         return Response({"msg":"Form has been created"}, status=status.HTTP_200_OK)
 
 class GetForms(ModelViewSet):
-    permission_classes = [HasAPIKey]
+    #permission_classes = [HasAPIKey]
     serializer_class = FormSerializer
     queryset = Formulario.objects.all()
 

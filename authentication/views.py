@@ -20,7 +20,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 from authentication.serializer import MembersSerializer, RegisterSerializer, UserProfileSerializer, UserSerializer
 
 class LoginView(generics.GenericAPIView):
-    authentication_classes = (CsrfExemptTokenAuthentication, HasAPIKey)
+    authentication_classes = (CsrfExemptTokenAuthentication, )
     serializer_class = UserSerializer
     def post(self, request, format=None):
         serializer = self.get_serializer(data=request.data)
@@ -48,7 +48,7 @@ class LoginView(generics.GenericAPIView):
 
 
 class LogoutView(APIView):
-    authentication_classes = (CsrfExemptTokenAuthentication,)
+    authentication_classes = (CsrfExemptTokenAuthentication, )
 
     def post(self, request):
         # Borramos de la request la información de sesión

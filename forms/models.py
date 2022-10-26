@@ -154,3 +154,9 @@ class RevisionCanina(models.Model):
 
     #TODO Nombre y firma del manejador
     #TODO Nombre y firma del operador
+
+class Feedback(models.Model):
+    # Modelo para manejar feedback recopilado de la app
+    user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    descripcion = models.TextField(blank=True, null=True)
+    creado = models.DateTimeField(auto_now_add=True)

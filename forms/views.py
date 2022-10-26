@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render
 from django.http.response import HttpResponse
 
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -160,3 +160,11 @@ class GetFormDetails(ModelViewSet):
         context = super(GetFormDetails, self).get_serializer_context()
         context.update({"request": self.request})
         return context
+
+
+class GetLastFiveForms(APIView):
+
+    def get(self, request):
+        data = Formulario.objects.all().order_by('-id')[:5].values()
+        
+        return Response(data)

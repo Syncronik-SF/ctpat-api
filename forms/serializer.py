@@ -102,8 +102,9 @@ class FormDetailsSerializer(serializers.ModelSerializer):
     def get_entrada(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
-        ingreso = Entrada.objects.get(embarque_id = form.pk)
-        data =  {
+        try:
+            ingreso = Entrada.objects.get(embarque_id = form.pk)
+            data =  {
                 "autorizado_por": ingreso.autorizado_por,
                 "factura": ingreso.factura,
                 "numero_pallets": ingreso.numero_pallets,
@@ -111,15 +112,18 @@ class FormDetailsSerializer(serializers.ModelSerializer):
                 "sello_entregado_a": ingreso.sello_entregado_a,
                 "destino": ingreso.destino,
                 "es_exportacion": ingreso.es_exportacion,
-        }
+            }
+        except:
+            data = {"error": "No existe registro de entrada"}
         return data
     
     def get_data_checklist(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
-        entrada = Entrada.objects.get(embarque_id = form.pk)
-        salida = Salida.objects.get(embarque_id = form.pk)
-        data = {
+        try:
+            entrada = Entrada.objects.get(embarque_id = form.pk)
+            salida = Salida.objects.get(embarque_id = form.pk)
+            data = {
             
             "Tarjeta de circulación": entrada.DE_tarjeta_circulacion,
             "Seguro obligatorio": entrada.DE_seguro_obligatorio,
@@ -179,13 +183,16 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Salida: Objetos o sustancias extrañas": salida.CGTS_obj_sust_ext,
 
         }
+        except:
+            data = {"msg": "No existe registros de entrada ni salida"}
         return data
 
     def get_data_revision_canina(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
-        revision_can = RevisionCanina.objects.get(embarque_id = form.pk)
-        data =  {
+        try:
+            revision_can = RevisionCanina.objects.get(embarque_id = form.pk)
+            data =  {
             "Patio": revision_can.patio,
             "Cliente": revision_can.cliente,
             "Nombre del K9": revision_can.nombre_k9,
@@ -206,6 +213,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Piso de la caja": revision_can.PR_piso_caja,
             #"descripcion_hallazgo": revision_can.descripcion_hallazgo,
         }
+        except:
+            data = {"msg": "No existe registro de revision canina"}
         return data
 
 

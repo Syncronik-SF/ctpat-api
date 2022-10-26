@@ -340,9 +340,9 @@ def forms_created(request,pk):
     try:    
         entrada = Entrada.objects.get(embarque_id=idForm )
         print(entrada)
-        status_entrada = {"id":1,"reporte": "Entrada","isReady": True}
+        status_entrada = {"id":1,"reporte": "Revisión de Entrada","isReady": True}
     except:
-        status_entrada = {"id":1, "reporte": "Entrada","isReady": False}
+        status_entrada = {"id":1, "reporte": "Revisión de Entrada","isReady": False}
     try:    
         entrada = RevisionCanina.objects.get(embarque_id=idForm )
         print(entrada)
@@ -352,9 +352,9 @@ def forms_created(request,pk):
     try:    
         entrada = Salida.objects.get(embarque_id=idForm )
         print(entrada)
-        status_salida = {"id":3,"reporte": "Salida","isReady": True}
+        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": True}
     except:
-        status_salida = {"id":3,"reporte": "Salida","isReady": False}
+        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": False}
     
     response.append(status_entrada)
     response.append(status_canina)

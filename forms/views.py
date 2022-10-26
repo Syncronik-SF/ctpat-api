@@ -162,9 +162,6 @@ class GetFormDetails(ModelViewSet):
         return context
 
 
-class GetLastFiveForms(APIView):
-
-    def get(self, request):
-        data = Formulario.objects.all().order_by('-id')[:5].values()
-        
-        return Response(data)
+class GetLastFiveForms(ModelViewSet):
+    serializer_class = FormSerializer
+    queryset = Formulario.objects.all().order_by('-id')[:5].values()

@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
     picture = serializers.SerializerMethodField('get_profile_picture')
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'email', 'phone', 'job_title', 'is_online_in_app', 'picture')
+        fields = ('pk', 'first_name', 'last_name', 'email', 'phone', 'job_title', 'is_online_in_app', 'picture')
         
     def get_profile_picture(self, CustomUser):
         _id = CustomUser.pk

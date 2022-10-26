@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 from authentication.models import CustomUser
 from .serializer import FormSerializer, FormDetailsSerializer
-from .models import Tractor, Cajas, Ingreso, CheckList, RevisionCanina
+from .models import Feedback, Tractor, Cajas, Ingreso, CheckList, RevisionCanina
 from forms.models import Formulario
 from rest_framework_api_key.permissions import HasAPIKey
 
@@ -165,3 +165,11 @@ class GetFormDetails(ModelViewSet):
 class GetLastFiveForms(ModelViewSet):
     serializer_class = FormSerializer
     queryset = Formulario.objects.all().order_by('-id')[:5]
+
+class SaveFeedback(APIView):
+    def post(self, request):
+        user_that_created = request.data['id_user']
+        descripcion = request.data['descripcion']
+        user = CustomUser.objects.get(pk=user_that_created)
+        feedback = Feedback.objects.create(user=user, descripcion=descripcion)
+        return Response({"msg":"¡Feedback recibido!"}, status=status.HTTP_200_OK)

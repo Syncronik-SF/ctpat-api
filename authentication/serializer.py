@@ -28,9 +28,20 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # User serializer
 class UserSerializer(serializers.ModelSerializer):
+    
+    picture = serializers.SerializerMethodField('get_profile_picture')
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ('first_name', 'last_name', 'email', 'phone', 'job_title', 'picture')
+        
+    def get_profile_picture(self, CustomUser):
+        _id = CustomUser.pk
+        try:
+            profile = Profile.objects.get(user=_id)
+            picture = profile.profile_picture
+        except:
+            picture = ""
+        return str(picture)
 
 class MembersSerializer(serializers.ModelSerializer):
 

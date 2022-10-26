@@ -2,7 +2,7 @@
 from rest_framework import  serializers
 
 # Models
-from authentication.models import CustomUser, Profile
+from authentication.models import CustomUser, Profile, WorkerType
 
 # Serializers
 class RegisterSerializer(serializers.ModelSerializer):
@@ -78,3 +78,10 @@ class PhotoProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+
+class WorkerTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkerType
+        fields = '__all__'
+        

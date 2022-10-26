@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from authentication.models import Profile
+from authentication.models import Profile, WorkerType
 
 
 @admin.register(get_user_model())
@@ -16,3 +16,4 @@ class CustomUserAdmin(UserAdmin):
     
 
 admin.site.register(Profile)
+admin.site.register(WorkerType)

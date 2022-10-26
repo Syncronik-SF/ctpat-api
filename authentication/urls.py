@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import CustomUserView, LoginView, LogoutView, MembersView, ProfilePictureView, SignUpView, UpdateProfileView, UserProfileView, upload_photo, ListUsers
+from .views import CustomUserView, ListWorkerType, LoginView, LogoutView, MembersView, ProfilePictureView, SignUpView, UpdateProfileView, UserProfileView, upload_photo, ListUsers
 
 from rest_framework.routers import DefaultRouter
 
@@ -25,4 +25,5 @@ urlpatterns = [
     path('profile-pic/<int:id>', ProfilePictureView.as_view(), name="my_photo"),
     path('members/all', MembersView.as_view({'get': 'list'}), name="members"),
     path('users', ListUsers.as_view()),
+    path('worker-type', ListWorkerType.as_view()),
 ]

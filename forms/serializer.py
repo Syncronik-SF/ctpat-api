@@ -134,7 +134,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
                 "es_exportacion": ingreso.es_exportacion,
             }
         except:
-            data = {"error": "No existe registro de entrada"}
+            data = {"Sin datos": "No existe registro de entrada"}
         return data
     
     def get_data_checklist(self, Embarque):
@@ -204,7 +204,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
 
         }
         except:
-            data = {"msg": "No existe registros de entrada ni salida"}
+            data = {"Sin datos": "No existe registros de entrada ni salida"}
         return data
 
     def get_data_revision_canina(self, Embarque):
@@ -234,7 +234,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             #"descripcion_hallazgo": revision_can.descripcion_hallazgo,
         }
         except:
-            data = {"msg": "No existe registro de revision canina"}
+            data = {"Sin datos": "No existe registro de revision canina"}
         return data
 
 

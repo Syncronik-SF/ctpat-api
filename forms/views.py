@@ -164,4 +164,4 @@ class GetFormDetails(ModelViewSet):
 
 class GetLastFiveForms(ModelViewSet):
     serializer_class = FormSerializer
-    queryset = Formulario.objects.all().order_by('-id')[:5].values()
+    queryset = Formulario.objects.all().order_by('-id')[:5]

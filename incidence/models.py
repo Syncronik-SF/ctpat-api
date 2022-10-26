@@ -1,6 +1,6 @@
 from django.db import models
 from authentication.models import CustomUser
-from forms.models import RevisionCanina, CheckList
+#from forms.models import RevisionCanina, CheckList
 from django.core.validators import FileExtensionValidator
 
 

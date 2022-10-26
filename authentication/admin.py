@@ -7,10 +7,10 @@ from authentication.models import Profile, WorkerType
 
 @admin.register(get_user_model())
 class CustomUserAdmin(UserAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'job_title', 'phone', 'is_online_in_app')
+    list_display = ('id', 'first_name', 'last_name', 'job_title', 'phone', 'is_online_in_app', 'worker_type')
     fieldsets = (
         (None, {
-            'fields': ('username', 'password', 'first_name', 'last_name', 'job_title', 'phone', 'is_online_in_app')
+            'fields': ('username', 'password', 'first_name', 'last_name', 'job_title', 'phone', 'is_online_in_app', 'worker_type')
         }),
     )
     

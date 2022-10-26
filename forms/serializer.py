@@ -5,12 +5,32 @@ from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida
 #from .models import CheckList, Formulario, Ingreso, RevisionCanina, Tractor, Cajas
 
 class EmbarqueSerializer(serializers.ModelSerializer):
-    #creado_por = serializers.SerializerMethodField('get_full_name')
+    pasos = serializers.SerializerMethodField('get_conciliacion')
     class Meta:
         model = Embarque
-        fields = "__all__"
+        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por', 'factura', 'numero_pallets', 'numero_sello', 'sello_entregado_a', 'destino', 'es_exportacion']
         
-
+    def get_conciliacion(self, Embarque):
+        idEmbarque = Embarque.pk
+        embarque = Embarque.__class__.objects.get(pk = idEmbarque)
+        pasos_completados = 1
+        try:
+            entrada = Entrada.__class__.objects.get(embarque_id=embarque)
+            print(entrada)
+            pasos_completados = pasos_completados + 1
+        except:
+            pass
+        try:
+            canina = RevisionCanina.__class__.objects.get(embarque_id = embarque)
+            pasos_completados = pasos_completados + 1
+        except:
+            pass
+        try:    
+            entrada = Salida.__class__.objects.get(embarque_id=embarque)
+            pasos_completados = pasos_completados + 1
+        except:
+            pass
+        return pasos_completados
 # class FormSerializer(serializers.ModelSerializer):
 
 #     creado_por = serializers.SerializerMethodField('get_full_name')

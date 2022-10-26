@@ -3,12 +3,13 @@ from rest_framework import  serializers
 
 # Models
 from authentication.models import CustomUser, Profile, WorkerType
+from forms.models import Guardia
 
 # Serializers
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id','email','password','first_name', 'last_name', 'phone', 'job_title')
+        fields = ('id','email','password','first_name', 'last_name', 'phone', 'job_title', 'worker_type')
         extra_kwargs = {
             'password':{'write_only': True},
         }
@@ -21,8 +22,11 @@ class RegisterSerializer(serializers.ModelSerializer):
                first_name=validated_data['first_name'],  
                last_name=validated_data['last_name'],
                phone = validated_data['phone'],
-               job_title = validated_data['job_title']
+               job_title = validated_data['job_title'],
+               worker_type = validated_data['worker_type']
                )
+        if str(user.worker_type.pk) == "2":
+            guardia = Guardia.objects.create(user=user)
         return user
     
 
@@ -32,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
     picture = serializers.SerializerMethodField('get_profile_picture')
     class Meta:
         model = CustomUser
-        fields = ('pk', 'first_name', 'last_name', 'email', 'phone', 'job_title', 'is_online_in_app', 'picture')
+        fields = ('pk', 'first_name', 'last_name', 'email', 'phone', 'job_title', 'is_online_in_app', 'picture', "worker_type")
         
     def get_profile_picture(self, CustomUser):
         _id = CustomUser.pk

@@ -6,6 +6,10 @@ from django.db.models.deletion import DO_NOTHING
 def nameFile(instance, filename):
     return '/'.join(['images', str(instance.name), filename])
 
+class WorkerType(models.Model):
+    worker_type = models.CharField(max_length=50)
+    def __str__(self) -> str:
+        return f"ID: {self.id} - Type: {self.worker_type}"
 
 class CustomUser(AbstractUser):
     """
@@ -15,7 +19,7 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=120, blank=True)
     job_title = models.CharField(max_length=40, null=True, blank=True)
     is_online_in_app = models.BooleanField(default=False, null=True)
-    
+    worker_type = models.ForeignKey(WorkerType, null=True, blank=True, on_delete=models.DO_NOTHING)    
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     
@@ -41,7 +45,3 @@ class Profile(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
     
 
-class WorkerType(models.Model):
-    type = models.CharField(max_length=50)
-    def __str__(self) -> str:
-        return f"ID: {self.id} - Type: {self.type}"

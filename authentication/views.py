@@ -36,6 +36,8 @@ class LoginView(generics.GenericAPIView):
             token_dict = {
             'token': str(token.key),  # None
             }
+            user.is_online_in_app = True
+            user.save()
             resp = UserSerializer(user, context=self.get_serializer_context()).data
             resp.update(token_dict)
             return Response(
@@ -57,6 +59,8 @@ class LogoutView(APIView):
         try:
             token = Token.objects.get(user_id=user.id)
             token.delete()
+            user.is_online_in_app = False
+            user.save()
         except:
             return Response([{'msg':'No existe un token para el usuario'}], status=status.HTTP_401_UNAUTHORIZED)
         # Devolvemos la respuesta al cliente

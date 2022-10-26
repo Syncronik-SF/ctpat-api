@@ -14,10 +14,10 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.viewsets import ModelViewSet
 
 # Models 
-from authentication.models import CustomUser, Profile
+from authentication.models import CustomUser, Profile, WorkerType
 from rest_framework_api_key.permissions import HasAPIKey
 # Serializers
-from authentication.serializer import MembersSerializer, RegisterSerializer, UserProfileSerializer, UserSerializer
+from authentication.serializer import MembersSerializer, RegisterSerializer, UserProfileSerializer, UserSerializer, WorkerTypeSerializer
 
 class LoginView(generics.GenericAPIView):
     authentication_classes = (CsrfExemptTokenAuthentication, )
@@ -166,5 +166,10 @@ class ListUsers(generics.ListAPIView):
     def get_queryset(self):
         queryset = CustomUser.objects.all()
         return queryset
-        
 
+
+class ListWorkerType(generics.ListAPIView):
+    
+    serializer_class = WorkerTypeSerializer
+    def get_queryset(self):
+        return WorkerType.objects.all()

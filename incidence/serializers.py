@@ -5,4 +5,4 @@ from dataclasses import fields
 class IncidenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Incidence
-        fields = ['id','user','incidencias', 'title','descripcion', 'date','hour','picture']
+        fields = ['id','user', 'title','descripcion', 'date','hour','picture']

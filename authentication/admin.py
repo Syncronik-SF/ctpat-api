@@ -7,10 +7,10 @@ from authentication.models import Profile
 
 @admin.register(get_user_model())
 class CustomUserAdmin(UserAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'job_title')
+    list_display = ('id', 'first_name', 'last_name', 'job_title', 'phone')
     fieldsets = (
         (None, {
-            'fields': ('username', 'password', 'first_name', 'last_name', 'job_title')
+            'fields': ('username', 'password', 'first_name', 'last_name', 'job_title', 'phone')
         }),
     )
     

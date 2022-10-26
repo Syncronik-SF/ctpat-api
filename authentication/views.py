@@ -160,6 +160,11 @@ class UpdateProfileView(APIView):
         })
 
 
-
+class ListUsers(generics.ListAPIView):
+    
+    serializer_class = UserSerializer
+    def get_queryset(self):
+        queryset = CustomUser.objects.all()
+        return queryset
         
 

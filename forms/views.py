@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 from authentication.models import CustomUser
 from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer
+from incidence.models import Incidence
 #from .serializer import FormSerializer, FormDetailsSerializer
 from .models import Embarque, Entrada, Feedback, Guardia, RevisionCanina, Salida
 from rest_framework_api_key.permissions import HasAPIKey
@@ -360,3 +361,29 @@ def forms_created(request,pk):
     response.append(status_canina)
     response.append(status_salida)
     return Response(response, status=200)
+
+
+class Quantities(APIView):
+    
+    def get(self, request, date):
+        incidencias = len(Incidence.objects.filter(date = date))
+        embarques = Embarque.objects.filter(creado__date=date)
+        
+        entradas = len(Entrada.objects.filter(embarque_id__in = embarques))
+        salidas = len(Salida.objetcs.filter(embarque_id__in = embarques))
+        
+        embarques = len(embarques)
+        
+        data = {
+            "code": 200,
+            "embarques": embarques,
+            "entradas": entradas,
+            "salidas": salidas,
+            "incidencias": incidencias
+        }
+        return Response(data, status = status.HTTP_200_OK)
+        
+
+        
+
+

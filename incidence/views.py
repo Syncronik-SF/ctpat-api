@@ -1,5 +1,5 @@
-from .models import Incidence
-from incidence.serializers import  IncidenceSerializer
+from .models import Incidence, IncidenceType
+from incidence.serializers import  IncidenceSerializer, IncidenceTypeSerializer
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
@@ -75,3 +75,10 @@ def incidence_detail(request,pk):
         return Response( serializer.data, status=200)
     except:
         return Response({"msg":"Incidencia no encontrada"}, status=404)
+    
+    
+class ListIncidenceType(generics.ListAPIView):
+    
+    serializer_class = IncidenceTypeSerializer
+    def get_queryset(self):
+        return IncidenceType.objects.all()

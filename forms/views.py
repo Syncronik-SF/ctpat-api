@@ -370,7 +370,7 @@ class Quantities(APIView):
         embarques = Embarque.objects.filter(creado__date=date)
         
         entradas = len(Entrada.objects.filter(embarque_id__in = embarques))
-        salidas = len(Salida.objetcs.filter(embarque_id__in = embarques))
+        salidas = len(Salida.objects.filter(embarque_id__in = embarques))
         
         embarques = len(embarques)
         

@@ -362,6 +362,44 @@ def forms_created(request,pk):
     return Response(response, status=200)
 
 
+@api_view(['GET'])
+def validate_status_form(request,pk):
+    idForm = Embarque.objects.get(pk=pk)
+    data = []
+    forms_ready = 1
+    try:    
+        entrada = Entrada.objects.get(embarque_id=idForm )
+        print(entrada)
+        status_entrada = {"id":1,"reporte": "Revisión de Entrada","isReady": True}
+        forms_ready = forms_ready + 1
+    except:
+        status_entrada = {"id":1, "reporte": "Revisión de Entrada","isReady": False, "route": "entrada"}  
+    data.append(status_entrada)
+    try:    
+        canina = RevisionCanina.objects.get(embarque_id=idForm )
+        print(canina)
+        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
+        forms_ready = forms_ready + 1
+    except:
+        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
+        
+    data.append(status_canina)
+    try:    
+        salida = Salida.objects.get(embarque_id=idForm )
+        print(salida)
+        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": True}
+        forms_ready = forms_ready + 1
+    except:
+        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
+    data.append(status_salida)
+
+    if forms_ready >= 4:
+        response = {"route": "/shipping-details"}
+    else:
+        response = {"route": "/not-ready"}
+    return Response(response, status=200)
+
+
 class Quantities(APIView):
     
     def get(self, request, date):

@@ -13,7 +13,7 @@ urlpatterns = [
     path('detail', Datelist.as_view(), name= "detail_date"),
     path('all', AllIncidence.as_view(), name= "all_incidence"),
     
-
+    path('list-incidence-type', ListIncidenceType.as_view()),
 
 
  ] #Crea incidence

@@ -344,21 +344,20 @@ def forms_created(request,pk):
         status_entrada = {"id":1,"reporte": "Revisión de Entrada","isReady": True}
     except:
         status_entrada = {"id":1, "reporte": "Revisión de Entrada","isReady": False, "route": "entrada"}
+    response.append(status_entrada)
     try:    
-        entrada = RevisionCanina.objects.get(embarque_id=idForm )
-        print(entrada)
+        canina = RevisionCanina.objects.get(embarque_id=idForm )
+        print(canina)
         status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
     except:
         status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
+    response.append(status_canina)
     try:    
-        entrada = Salida.objects.get(embarque_id=idForm )
-        print(entrada)
+        salida = Salida.objects.get(embarque_id=idForm )
+        print(salida)
         status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": True}
     except:
         status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
-    
-    response.append(status_entrada)
-    response.append(status_canina)
     response.append(status_salida)
     return Response(response, status=200)
 

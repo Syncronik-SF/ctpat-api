@@ -116,6 +116,7 @@ class Salida(models.Model):
     embarque_id = models.ForeignKey(Embarque, on_delete=models.DO_NOTHING)
     DS_doc_embarque = models.BooleanField(blank=True, null=True)
     DS_aut_embarque = models.BooleanField(blank=True, null=True)
+    DS_has_sello = models.BooleanField(blank=True, null=True)
     DS_sello = models.CharField(max_length=40, blank=True, null=True)
 
     CGTS_luces_frente = models.BooleanField(blank=True, null=True)

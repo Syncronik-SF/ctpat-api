@@ -414,9 +414,13 @@ class Quantities(APIView):
         data = {
             "code": 200,
             "embarques": embarques,
+            "embarques_icon": "assets/camion.gif",
             "entradas": entradas,
+            "entradas_icon": "assets/entradas.gif",
             "salidas": salidas,
-            "incidencias": incidencias
+            "salidas_icon": "assets/salidas.gif",
+            "incidencias": incidencias,
+            "incidencias_icon": "assets/incidencias.gif"
         }
         return Response(data, status = status.HTTP_200_OK)
         

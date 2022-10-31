@@ -1,5 +1,5 @@
 from .models import Incidence, IncidenceType
-from incidence.serializers import  IncidenceSerializer, IncidenceTypeSerializer
+from incidence.serializers import  IncidenceDetailSerializer, IncidenceSerializer, IncidenceTypeSerializer
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
@@ -59,7 +59,7 @@ class Datelist(generics.ListAPIView):
 
 class AllIncidence(generics.ListAPIView):
     queryset = Incidence.objects.all()
-    serializer_class = IncidenceSerializer
+    serializer_class = IncidenceDetailSerializer
     def get_queryset(self):
         incidencias = self.request.query_params.get('incidencias')
         queryset = Incidence.objects.all()

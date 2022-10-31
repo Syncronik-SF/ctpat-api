@@ -21,7 +21,7 @@ class IncidenceDetailSerializer(serializers.ModelSerializer):
         pk_incidence = Incidence.pk
         incidence = Incidence.__class__.objects.get(pk=pk_incidence)
         user = incidence.user
-        profile = Profile.objects.get(pk =user.pk)
+        profile = Profile.objects.get(user =user.pk)
         
         data = {"full_name": user.get_full_name_user(), "profile_photo": str(profile.profile_picture)}
         return data

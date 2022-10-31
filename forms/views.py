@@ -411,17 +411,28 @@ class Quantities(APIView):
         
         embarques = len(embarques)
         
-        data = {
-            "code": 200,
-            "embarques": embarques,
-            "embarques_icon": "assets/camion.gif",
-            "entradas": entradas,
-            "entradas_icon": "assets/entradas.gif",
-            "salidas": salidas,
-            "salidas_icon": "assets/salidas.gif",
-            "incidencias": incidencias,
-            "incidencias_icon": "assets/incidencias.gif"
-        }
+        data = [
+            { 
+                "label": "Embarques",
+                "value": embarques,
+                "icon": "assets/camion.gif"
+            },
+            {
+                "label": "Entradas",
+                "value": entradas,
+                "icon": "assets/entradas.gif"
+            },
+            {
+                "label": "Salidas",
+                "value": salidas,
+                "icon": "assets/salidas.gif"
+            },
+            {
+                "label": "Incidencias",
+                "value": incidencias,
+                "icon": "assets/incidencias.gif"
+            }
+        ]
         return Response(data, status = status.HTTP_200_OK)
         
 

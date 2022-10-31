@@ -4,6 +4,7 @@ from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida
 
 #from .models import CheckList, Formulario, Ingreso, RevisionCanina, Tractor, Cajas
 
+import pdb
 class EmbarqueSerializer(serializers.ModelSerializer):
     pasos = serializers.SerializerMethodField('get_conciliacion')
     class Meta:
@@ -15,18 +16,18 @@ class EmbarqueSerializer(serializers.ModelSerializer):
         embarque = Embarque.__class__.objects.get(pk = idEmbarque)
         pasos_completados = 1
         try:
-            entrada = Entrada.__class__.objects.get(embarque_id=embarque)
+            entrada = Entrada.objects.get(embarque_id=embarque.pk)
             print(entrada)
             pasos_completados = pasos_completados + 1
         except:
             pass
         try:
-            canina = RevisionCanina.__class__.objects.get(embarque_id = embarque)
+            canina = RevisionCanina.objects.get(embarque_id = embarque.pk)
             pasos_completados = pasos_completados + 1
         except:
             pass
         try:    
-            entrada = Salida.__class__.objects.get(embarque_id=embarque)
+            entrada = Salida.objects.get(embarque_id=embarque.pk)
             pasos_completados = pasos_completados + 1
         except:
             pass

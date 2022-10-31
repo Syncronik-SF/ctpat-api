@@ -420,17 +420,17 @@ class Quantities(APIView):
             {
                 "label": "Entradas",
                 "value": entradas,
-                "icon": "assets/entradas.gif"
+                "icon": "assets/entrada.gif"
             },
             {
                 "label": "Salidas",
                 "value": salidas,
-                "icon": "assets/salidas.gif"
+                "icon": "assets/salida.gif"
             },
             {
                 "label": "Incidencias",
                 "value": incidencias,
-                "icon": "assets/incidencias.gif"
+                "icon": "assets/alarma.gif"
             }
         ]
         return Response(data, status = status.HTTP_200_OK)

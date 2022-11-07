@@ -178,31 +178,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Entrada: Agrícolas (Plagas)": entrada.CGTE_agricolas,
             "Entrada: Olores extraños": entrada.CGTE_olores_ext,
             "Entrada: Humedad": entrada.CGTE_humedad,
-            "Entrada: Objetos o sustancias extrañas": entrada.CGTE_obj_sust_ext,
-
-            "Salida: Luces del frente": salida.CGTS_luces_frente,
-            "Salida: Luces traseras": salida.CGTS_luces_traseras,
-            "Salida: Motor": salida.CGTS_motor,
-            "Salida: Tubo de escape": salida.CGTS_tubo_escape,
-            "Salida: Exterior chasis": salida.CGTS_exterior_chasis,
-            "Salida: Fugas de aceite": salida.CGTS_fugas_aceite,
-            "Salida: Techo interior/exterior": salida.CGTS_techo_int_ext,
-            "Salida: Puertas interiores/exteriores": salida.CGTS_puertas_int_ext,
-            "Salida: Paredes laterales": salida.CGTS_paredes_laterales,
-            "Salida: Parachoques": salida.CGTS_parachoques,
-            "Salida: Piso": salida.CGTS_piso,
-            "Salida: Patines": salida.CGTS_patines,
-            "Salida: Quinta rueda": salida.CGTS_quinta_rueda,
-            "Salida: Tanque de combustible": salida.CGTS_tanque_combustible,
-            "Salida: Tanques de aire": salida.CGTS_tanques_aire,
-            "Salida: Llantas y rines": salida.CGTS_llantas_rines,
-            "Salida: Ejes": salida.CGTS_ejes,
-            "Salida: Cabina": salida.CGTS_cabina,
-            "Salida: Compartimiento herramientas": salida.CGTS_comopartimientos_herramientas,
-            "Salida: Agrícolas (Plagas)": salida.CGTS_agricolas,
-            "Salida: Olores extraños": salida.CGTS_olores_ext,
-            "Salida: Humedad": salida.CGTS_humedad,
-            "Salida: Objetos o sustancias extrañas": salida.CGTS_obj_sust_ext,
+            "Entrada: Objetos o sustancias extrañas": entrada.CGTE_obj_sust_ext
 
         }
         except:

@@ -345,19 +345,19 @@ def forms_created(request,pk):
     except:
         status_entrada = {"id":1, "reporte": "Revisión de Entrada","isReady": False, "route": "entrada"}
     response.append(status_entrada)
-    try:    
-        canina = RevisionCanina.objects.get(embarque_id=idForm )
-        print(canina)
-        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
-    except:
-        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
-    response.append(status_canina)
+    # try:    
+    #     canina = RevisionCanina.objects.get(embarque_id=idForm )
+    #     print(canina)
+    #     status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
+    # except:
+    #     status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
+    # response.append(status_canina)
     try:    
         salida = Salida.objects.get(embarque_id=idForm )
         print(salida)
-        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": True}
+        status_salida = {"id":2,"reporte": "Revisión de Salida","isReady": True}
     except:
-        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
+        status_salida = {"id":2,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
     response.append(status_salida)
     return Response(response, status=200)
 
@@ -375,22 +375,22 @@ def validate_status_form(request,pk):
     except:
         status_entrada = {"id":1, "reporte": "Revisión de Entrada","isReady": False, "route": "entrada"}  
     data.append(status_entrada)
-    try:    
-        canina = RevisionCanina.objects.get(embarque_id=idForm )
-        print(canina)
-        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
-        forms_ready = forms_ready + 1
-    except:
-        status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
+    # try:    
+    #     canina = RevisionCanina.objects.get(embarque_id=idForm )
+    #     print(canina)
+    #     status_canina = {"id":2, "reporte": "Revisión Canina","isReady": True}
+    #     forms_ready = forms_ready + 1
+    # except:
+    #     status_canina = {"id":2, "reporte": "Revisión Canina","isReady": False, "route": "canina"}
         
-    data.append(status_canina)
+    # data.append(status_canina)
     try:    
         salida = Salida.objects.get(embarque_id=idForm )
         print(salida)
-        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": True}
+        status_salida = {"id":2,"reporte": "Revisión de Salida","isReady": True}
         forms_ready = forms_ready + 1
     except:
-        status_salida = {"id":3,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
+        status_salida = {"id":2,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
     data.append(status_salida)
 
     if forms_ready >= 4:

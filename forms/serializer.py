@@ -21,11 +21,11 @@ class EmbarqueSerializer(serializers.ModelSerializer):
             pasos_completados = pasos_completados + 1
         except:
             pass
-        try:
-            canina = RevisionCanina.objects.get(embarque_id = embarque.pk)
-            pasos_completados = pasos_completados + 1
-        except:
-            pass
+        # try:
+        #     canina = RevisionCanina.objects.get(embarque_id = embarque.pk)
+        #     pasos_completados = pasos_completados + 1
+        # except:
+        #     pass
         try:    
             entrada = Salida.objects.get(embarque_id=embarque.pk)
             pasos_completados = pasos_completados + 1
@@ -71,17 +71,18 @@ class EmbarqueSerializer(serializers.ModelSerializer):
 
 class FormDetailsSerializer(serializers.ModelSerializer):
     resumen = serializers.SerializerMethodField('get_resumen')
-    checklist = serializers.SerializerMethodField('get_data_checklist')
+    entrada = serializers.SerializerMethodField('get_data_entrada')
+    salida = serializers.SerializerMethodField('get_data_salida')
     #form = serializers.SerializerMethodField('get_data_form')
     #tractor = serializers.SerializerMethodField('get_data_tractor')
     #cajas = serializers.SerializerMethodField('get_data_cajas')
     #ingreso = serializers.SerializerMethodField('get_data_ingreso')
     #checklist = serializers.SerializerMethodField('get_data_checklist')
-    revision_canina = serializers.SerializerMethodField('get_data_revision_canina')
+    #revision_canina = serializers.SerializerMethodField('get_data_revision_canina')
 
     class Meta:
         model = Embarque
-        fields = ['resumen', 'checklist', 'revision_canina']
+        fields = ['resumen', 'entrada', 'salida']
 
     def get_me(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
@@ -138,7 +139,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             data = {"Sin datos": "No existe registro de entrada"}
         return data
     
-    def get_data_checklist(self, Embarque):
+    def get_data_entrada(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
         try:
@@ -205,38 +206,76 @@ class FormDetailsSerializer(serializers.ModelSerializer):
 
         }
         except:
-            data = {"Sin datos": "No existe registros de entrada ni salida"}
+            data = {"Sin datos": "No existe registros de entrada"}
         return data
 
-    def get_data_revision_canina(self, Embarque):
+    def get_data_salida(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
         try:
-            revision_can = RevisionCanina.objects.get(embarque_id = form.pk)
-            data =  {
-            "Patio": revision_can.patio,
-            "Cliente": revision_can.cliente,
-            "Nombre del K9": revision_can.nombre_k9,
-            "Defensa": revision_can.PR_defensa,
-            "Motor": revision_can.PR_motor,
-            "Piso de cabina": revision_can.PR_piso_cabina,
-            "Tanque de Combustible": revision_can.PR_tanque_combustible,
-            "Llantas y Rines": revision_can.PR_llantas_rines,
-            "Flecha": revision_can.PR_flecha,
-            "Cabina": revision_can.PR_cabina,
-            "Tanque de aire": revision_can.PR_tanque_aire,
-            "Mofles/Escape": revision_can.PR_mofles,
-            "Equipo de refigeración": revision_can.PR_equipo_refrigeracion,
-            "Quinta Rueda": revision_can.PR_quinta_rueda,
-            "Chasis": revision_can.PR_chasis,
-            "Puertas traseras": revision_can.PR_puertas_traseras,
-            "Paredes/Techo": revision_can.PR_paredes_techo,
-            "Piso de la caja": revision_can.PR_piso_caja,
-            #"descripcion_hallazgo": revision_can.descripcion_hallazgo,
+            entrada = Entrada.objects.get(embarque_id = form.pk)
+            salida = Salida.objects.get(embarque_id = form.pk)
+            data = {
+            "Salida: Luces del frente": salida.CGTS_luces_frente,
+            "Salida: Luces traseras": salida.CGTS_luces_traseras,
+            "Salida: Motor": salida.CGTS_motor,
+            "Salida: Tubo de escape": salida.CGTS_tubo_escape,
+            "Salida: Exterior chasis": salida.CGTS_exterior_chasis,
+            "Salida: Fugas de aceite": salida.CGTS_fugas_aceite,
+            "Salida: Techo interior/exterior": salida.CGTS_techo_int_ext,
+            "Salida: Puertas interiores/exteriores": salida.CGTS_puertas_int_ext,
+            "Salida: Paredes laterales": salida.CGTS_paredes_laterales,
+            "Salida: Parachoques": salida.CGTS_parachoques,
+            "Salida: Piso": salida.CGTS_piso,
+            "Salida: Patines": salida.CGTS_patines,
+            "Salida: Quinta rueda": salida.CGTS_quinta_rueda,
+            "Salida: Tanque de combustible": salida.CGTS_tanque_combustible,
+            "Salida: Tanques de aire": salida.CGTS_tanques_aire,
+            "Salida: Llantas y rines": salida.CGTS_llantas_rines,
+            "Salida: Ejes": salida.CGTS_ejes,
+            "Salida: Cabina": salida.CGTS_cabina,
+            "Salida: Compartimiento herramientas": salida.CGTS_comopartimientos_herramientas,
+            "Salida: Agrícolas (Plagas)": salida.CGTS_agricolas,
+            "Salida: Olores extraños": salida.CGTS_olores_ext,
+            "Salida: Humedad": salida.CGTS_humedad,
+            "Salida: Objetos o sustancias extrañas": salida.CGTS_obj_sust_ext,
+
         }
         except:
-            data = {"Sin datos": "No existe registro de revision canina"}
+            data = {"Sin datos": "No existe registros de salida"}
         return data
+    
+    
+
+    # def get_data_revision_canina(self, Embarque):
+    #     shipment = self.context['request'].GET.get('shipment')
+    #     form = Embarque.__class__.objects.get(pk = shipment)
+    #     try:
+    #         revision_can = RevisionCanina.objects.get(embarque_id = form.pk)
+    #         data =  {
+    #         "Patio": revision_can.patio,
+    #         "Cliente": revision_can.cliente,
+    #         "Nombre del K9": revision_can.nombre_k9,
+    #         "Defensa": revision_can.PR_defensa,
+    #         "Motor": revision_can.PR_motor,
+    #         "Piso de cabina": revision_can.PR_piso_cabina,
+    #         "Tanque de Combustible": revision_can.PR_tanque_combustible,
+    #         "Llantas y Rines": revision_can.PR_llantas_rines,
+    #         "Flecha": revision_can.PR_flecha,
+    #         "Cabina": revision_can.PR_cabina,
+    #         "Tanque de aire": revision_can.PR_tanque_aire,
+    #         "Mofles/Escape": revision_can.PR_mofles,
+    #         "Equipo de refigeración": revision_can.PR_equipo_refrigeracion,
+    #         "Quinta Rueda": revision_can.PR_quinta_rueda,
+    #         "Chasis": revision_can.PR_chasis,
+    #         "Puertas traseras": revision_can.PR_puertas_traseras,
+    #         "Paredes/Techo": revision_can.PR_paredes_techo,
+    #         "Piso de la caja": revision_can.PR_piso_caja,
+    #         #"descripcion_hallazgo": revision_can.descripcion_hallazgo,
+    #     }
+    #     except:
+    #         data = {"Sin datos": "No existe registro de revision canina"}
+    #     return data
 
 
 class GuardiaSerializer(serializers.ModelSerializer):

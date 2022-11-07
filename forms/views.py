@@ -393,7 +393,7 @@ def validate_status_form(request,pk):
         status_salida = {"id":2,"reporte": "Revisión de Salida","isReady": False, "route": "salida"}
     data.append(status_salida)
 
-    if forms_ready >= 4:
+    if forms_ready >= 3:
         response = {"route": "/shipping-details"}
     else:
         response = {"route": "/not-ready"}

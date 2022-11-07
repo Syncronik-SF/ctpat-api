@@ -30,7 +30,7 @@ class IncidenceDetailSerializer(serializers.ModelSerializer):
         pk_incidence = Incidence.pk
         incidence = Incidence.__class__.objects.get(pk=pk_incidence)
         embarque = Embarque.objects.get(pk = incidence.embarque.pk)
-        data = {"embarque_id": embarque.pk, "destino":embarque.destino, "factura": embarque.factura, "sello": embarque.numero_sello}
+        data = {"embarque_id": embarque.pk, "destino":embarque.destino.name, "factura": embarque.factura, "sello": embarque.numero_sello}
         return data
 
     def get_type_incidence(self, Incidence):

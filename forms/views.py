@@ -9,10 +9,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
 from authentication.models import CustomUser
-from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer, LineaSerializer
+from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer, LineaSerializer, DestinoSerializer
 from incidence.models import Incidence
 #from .serializer import FormSerializer, FormDetailsSerializer
-from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida
+from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida, Destino
 from rest_framework_api_key.permissions import HasAPIKey
 
 
@@ -49,7 +49,9 @@ class CreateEmbarque(APIView):
         numero_pallets = request.data['numero_pallets']
         numero_sello = request.data['numero_sello']
         sello_entregado_a = request.data['sello_entregado_a']
-        destino = request.data['destino']
+        destino_id = request.data['destino']
+        destino = Destino.objects.get(pk=destino_id)
+
         es_exportacion = request.data['es_exportacion']
 
         embarque = Embarque.objects.create(creado_por = user, guardia = guardia, operador = operador, linea_transporte = linea_transporte, marca_tractor = marca_tractor, 
@@ -342,6 +344,12 @@ class ListLineas(generics.ListAPIView):
     serializer_class = LineaSerializer
     def get_queryset(self):
         return Linea.objects.all()
+
+class ListDestinos(generics.ListAPIView):
+    
+    serializer_class = DestinoSerializer
+    def get_queryset(self):
+        return Destino.objects.all()
 
 @api_view(['GET'])
 def forms_created(request,pk):

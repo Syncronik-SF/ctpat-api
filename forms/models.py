@@ -9,6 +9,10 @@ class Guardia(models.Model):
     def __str__(self) -> str:
         return f"ID: {self.id} - Guardia: {self.user}"
 
+class Linea(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 class Embarque(models.Model):
     creado_por = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
@@ -18,12 +22,12 @@ class Embarque(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     modificado = models.DateTimeField(auto_now=True)
 
-    linea_transporte = models.CharField(max_length=50, blank=True, null=True)
+    linea_transporte = models.ForeignKey(Linea, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="linea_transporte")
     marca_tractor = models.CharField(max_length=50, blank=True, null=True)
     numero_placas_tractor = models.CharField(max_length=50, blank=True, null=True)
     no_economico = models.CharField(max_length=30, blank=True, null=True)
 
-    linea_de_caja = models.CharField(max_length=40, blank=True, null=True)
+    linea_de_caja = models.ForeignKey(Linea, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="linea_de_caja")
     numero_caja = models.CharField(max_length=40, blank=True, null=True)
     numero_placas_caja = models.CharField(max_length=30, blank=True, null=True)
 
@@ -36,6 +40,10 @@ class Embarque(models.Model):
     es_exportacion = models.BooleanField(blank=True, null=True)
     def __str__(self):
         return f"{self.pk} - Creado por: {self.creado_por} - Guardia: {self.guardia}"
+    
+    @property
+    def linea_name(self):
+        return self.linea_transporte.name
 
 
 # class Formulario(models.Model):

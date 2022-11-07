@@ -14,6 +14,12 @@ class Linea(models.Model):
     def __str__(self) -> str:
         return f"{self.name}"
 
+class Destino(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return f"Destino: {self.name}"
+
 class Embarque(models.Model):
     creado_por = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     guardia = models.ForeignKey(Guardia, on_delete=models.DO_NOTHING)
@@ -36,7 +42,7 @@ class Embarque(models.Model):
     numero_pallets = models.CharField(max_length=30, blank=True, null=True)
     numero_sello = models.CharField(max_length=30, blank=True, null=True)
     sello_entregado_a = models.CharField(max_length=50, blank=True, null=True)
-    destino = models.CharField(max_length=50, blank=True, null=True)
+    destino = models.ForeignKey(Destino, on_delete=models.DO_NOTHING, blank=True, null=True)
     es_exportacion = models.BooleanField(blank=True, null=True)
     def __str__(self):
         return f"{self.pk} - Creado por: {self.creado_por} - Guardia: {self.guardia}"
@@ -44,6 +50,10 @@ class Embarque(models.Model):
     @property
     def linea_name(self):
         return self.linea_transporte.name
+
+    @property
+    def destino_name(self):
+        return self.destino.name
 
 
 # class Formulario(models.Model):

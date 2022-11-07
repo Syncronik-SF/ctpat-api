@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from forms.models import Embarque, Entrada, Feedback, Guardia, RevisionCanina, Salida, Linea
+from forms.models import Embarque, Entrada, Feedback, Guardia, RevisionCanina, Salida, Linea, Destino
 #from .models import Formulario, Tractor, Cajas, Ingreso, CheckList, RevisionCanina, Feedback
 
 # Register your models here.
@@ -10,5 +10,6 @@ admin.site.register(Entrada)
 admin.site.register(Salida)
 admin.site.register(RevisionCanina)
 admin.site.register(Linea)
+admin.site.register(Destino)
 
 admin.site.register(Feedback)

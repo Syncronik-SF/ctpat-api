@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form
+from .views import CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form, ListLineas
 
 router = DefaultRouter()
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path("forms/last-five", GetLastFiveForms.as_view({'get': 'list'}), name="get-last-five"),
     path("feedback/save", SaveFeedback.as_view(), name="save-feedback"),
     path("guardias/all", ListGuardias.as_view()),
+    path('lineas/all', ListLineas.as_view()),
     path('forms-pending/<pk>', forms_created),
     path('status/<pk>', validate_status_form),
     

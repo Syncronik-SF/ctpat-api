@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
-from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida
+from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida, Linea
 
 #from .models import CheckList, Formulario, Ingreso, RevisionCanina, Tractor, Cajas
 
 import pdb
 class EmbarqueSerializer(serializers.ModelSerializer):
     pasos = serializers.SerializerMethodField('get_conciliacion')
+    #linea_name = serializers.ReadOnlyField()
     class Meta:
         model = Embarque
         fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por', 'factura', 'numero_pallets', 'numero_sello', 'sello_entregado_a', 'destino', 'es_exportacion']
@@ -103,11 +104,11 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Creado": form.creado,
             "Modificado": form.modificado,
             "Está ok": True,
-            "Línea de transporte de tractor": form.linea_transporte,
+            "Línea de transporte de tractor": form.linea_transporte.name,
             "Marca de tractor": form.marca_tractor,
             "Número de placas de tractor": form.numero_placas_tractor,
             "Número económico de tractor": form.no_economico,
-            "Línea de caja": form.linea_de_caja,
+            "Línea de caja": form.linea_de_caja.name,
             "Número de caja": form.numero_caja,
             "Placas de caja": form.numero_placas_caja,
             "Autorizado por": form.autorizado_por,
@@ -263,4 +264,9 @@ class GuardiaSerializer(serializers.ModelSerializer):
     def get_full_name(self, Guardia):
         guardia = Guardia.user
         return str(guardia)
+
+class LineaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Linea
+        fields = "__all__"
         

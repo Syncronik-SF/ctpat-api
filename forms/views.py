@@ -9,10 +9,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
 from authentication.models import CustomUser
-from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer
+from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer, LineaSerializer
 from incidence.models import Incidence
 #from .serializer import FormSerializer, FormDetailsSerializer
-from .models import Embarque, Entrada, Feedback, Guardia, RevisionCanina, Salida
+from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida
 from rest_framework_api_key.permissions import HasAPIKey
 
 
@@ -33,11 +33,14 @@ class CreateEmbarque(APIView):
 
         no_economico = request.data['no_economico']
 
-        linea_transporte = request.data['linea_transporte']
+        linea_transporte_id = request.data['linea_transporte']
+        linea_transporte = Linea.objects.get(pk=linea_transporte_id)
+
         marca_tractor = request.data['marca_tractor']
         numero_placas_tractor = request.data['numero_placas_tractor']
 
-        linea_de_caja = request.data['linea_de_caja']
+        linea_de_caja_id = request.data['linea_de_caja']
+        linea_de_caja = Linea.objects.get(pk=linea_de_caja_id)
         numero_caja = request.data['numero_caja']
         numero_placas_caja = request.data['numero_placas_caja']
 
@@ -333,6 +336,12 @@ class ListGuardias(generics.ListAPIView):
     serializer_class = GuardiaSerializer
     def get_queryset(self):
         return Guardia.objects.all()
+
+class ListLineas(generics.ListAPIView):
+    
+    serializer_class = LineaSerializer
+    def get_queryset(self):
+        return Linea.objects.all()
 
 @api_view(['GET'])
 def forms_created(request,pk):

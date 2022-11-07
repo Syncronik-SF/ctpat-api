@@ -20,6 +20,17 @@ class Destino(models.Model):
     def __str__(self) -> str:
         return f"Destino: {self.name}"
 
+class ContactoClave(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.CharField(max_length=150)
+
+    def get_full_name_user(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self) -> str:
+        return f"Contacto Clave: {self.first_name} {self.last_name}"
+
 class Embarque(models.Model):
     creado_por = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     guardia = models.ForeignKey(Guardia, on_delete=models.DO_NOTHING)
@@ -37,7 +48,7 @@ class Embarque(models.Model):
     numero_caja = models.CharField(max_length=40, blank=True, null=True)
     numero_placas_caja = models.CharField(max_length=30, blank=True, null=True)
 
-    autorizado_por = models.CharField(max_length=80, blank=True, null=True)
+    autorizado_por = models.ForeignKey(ContactoClave, blank=True, null=True, on_delete=models.DO_NOTHING)
     factura = models.CharField(max_length=80, blank=True, null=True)
     numero_pallets = models.CharField(max_length=30, blank=True, null=True)
     numero_sello = models.CharField(max_length=30, blank=True, null=True)
@@ -54,6 +65,10 @@ class Embarque(models.Model):
     @property
     def destino_name(self):
         return self.destino.name
+
+    @property
+    def autorizado_por_full_name(self):
+        return self.autorizado_por.get_full_name_user()
 
 
 # class Formulario(models.Model):

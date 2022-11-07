@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida, Linea, Destino
+from forms.models import Embarque, Entrada, Guardia, RevisionCanina, Salida, Linea, Destino, ContactoClave
 
 #from .models import CheckList, Formulario, Ingreso, RevisionCanina, Tractor, Cajas
 
@@ -9,9 +9,10 @@ class EmbarqueSerializer(serializers.ModelSerializer):
     pasos = serializers.SerializerMethodField('get_conciliacion')
     #linea_name = serializers.ReadOnlyField()
     destino_name = serializers.ReadOnlyField()
+    autorizado_por_full_name = serializers.ReadOnlyField()
     class Meta:
         model = Embarque
-        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por', 'factura', 'numero_pallets', 'numero_sello', 'sello_entregado_a', 'destino_name', 'es_exportacion']
+        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'numero_sello', 'sello_entregado_a', 'destino_name', 'es_exportacion']
         
     def get_conciliacion(self, Embarque):
         idEmbarque = Embarque.pk
@@ -112,7 +113,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Línea de caja": form.linea_de_caja.name,
             "Número de caja": form.numero_caja,
             "Placas de caja": form.numero_placas_caja,
-            "Autorizado por": form.autorizado_por,
+            "Autorizado por": f"{form.autorizado_por.first_name} {form.autorizado_por.last_name}",
             "Factura": form.factura,
             "Número de pallets": form.numero_pallets,
             "Número de sello": form.numero_sello,
@@ -129,7 +130,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
         try:
             ingreso = Entrada.objects.get(embarque_id = form.pk)
             data =  {
-                "autorizado_por": ingreso.autorizado_por,
+                "autorizado_por": ingreso.autorizado_por.autorizado_por_full_name,
                 "factura": ingreso.factura,
                 "numero_pallets": ingreso.numero_pallets,
                 "numero_sello": ingreso.numero_sello,
@@ -275,4 +276,14 @@ class DestinoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Destino
         fields = "__all__"
-        
+
+class ContactoClaveSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField('get_full_name')
+    class Meta:
+        model = ContactoClave
+        fields = ["id", "name"]
+
+    def get_full_name(self, ContactoClave):
+        contacto = ContactoClave.get_full_name_user()
+        return str(contacto)
+

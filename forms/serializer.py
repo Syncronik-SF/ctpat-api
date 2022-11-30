@@ -10,9 +10,10 @@ class EmbarqueSerializer(serializers.ModelSerializer):
     #linea_name = serializers.ReadOnlyField()
     destino_name = serializers.ReadOnlyField()
     autorizado_por_full_name = serializers.ReadOnlyField()
+    sello = serializers.SerializerMethodField('get_sello')
     class Meta:
         model = Embarque
-        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'destino_name', 'es_exportacion']
+        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'destino_name', 'es_exportacion', 'sello']
         
     def get_conciliacion(self, Embarque):
         idEmbarque = Embarque.pk
@@ -35,6 +36,11 @@ class EmbarqueSerializer(serializers.ModelSerializer):
         except:
             pass
         return pasos_completados
+    def get_sello(self, Embarque):
+        idEmbarque = Embarque.pk
+        embarque = Embarque.__class__.objects.get(pk = idEmbarque)
+        salida = Salida.objects.get(embarque_id=embarque.pk)
+        return salida.DS_sello
 # class FormSerializer(serializers.ModelSerializer):
 
 #     creado_por = serializers.SerializerMethodField('get_full_name')

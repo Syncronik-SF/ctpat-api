@@ -12,7 +12,7 @@ class EmbarqueSerializer(serializers.ModelSerializer):
     autorizado_por_full_name = serializers.ReadOnlyField()
     class Meta:
         model = Embarque
-        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'numero_sello', 'sello_entregado_a', 'destino_name', 'es_exportacion']
+        fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'destino_name', 'es_exportacion']
         
     def get_conciliacion(self, Embarque):
         idEmbarque = Embarque.pk
@@ -116,8 +116,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Autorizado por": f"{form.autorizado_por.first_name} {form.autorizado_por.last_name}",
             "Factura": form.factura,
             "Número de pallets": form.numero_pallets,
-            "Número de sello": form.numero_sello,
-            "Sello entregado a": form.sello_entregado_a,
+            #"Número de sello": form.numero_sello,
+            #"Sello entregado a": form.sello_entregado_a,
             "Destino": form.destino.name,
             "Es exportación a EU": form.es_exportacion,
         }
@@ -134,7 +134,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
                 "factura": ingreso.factura,
                 "numero_pallets": ingreso.numero_pallets,
                 "numero_sello": ingreso.numero_sello,
-                "sello_entregado_a": ingreso.sello_entregado_a,
+                #"sello_entregado_a": ingreso.sello_entregado_a,
                 "destino": ingreso.destino.name,
                 "es_exportacion": ingreso.es_exportacion,
             }

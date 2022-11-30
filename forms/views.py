@@ -48,8 +48,8 @@ class CreateEmbarque(APIView):
         autorizado_por = ContactoClave.objects.get(pk=autorizado_por_id)
         factura = request.data['factura']
         numero_pallets = request.data['numero_pallets']
-        numero_sello = request.data['numero_sello']
-        sello_entregado_a = request.data['sello_entregado_a']
+        #numero_sello = request.data['numero_sello']
+        #sello_entregado_a = request.data['sello_entregado_a']
         destino_id = request.data['destino']
         destino = Destino.objects.get(pk=destino_id)
 
@@ -57,7 +57,7 @@ class CreateEmbarque(APIView):
 
         embarque = Embarque.objects.create(creado_por = user, guardia = guardia, operador = operador, linea_transporte = linea_transporte, marca_tractor = marca_tractor, 
         numero_placas_tractor = numero_placas_tractor, no_economico = no_economico, linea_de_caja = linea_de_caja, numero_caja = numero_caja, numero_placas_caja = numero_placas_caja, autorizado_por = autorizado_por,
-        factura = factura, numero_pallets = numero_pallets, numero_sello = numero_sello, sello_entregado_a = sello_entregado_a, destino = destino, es_exportacion = es_exportacion)
+        factura = factura, numero_pallets = numero_pallets, destino = destino, es_exportacion = es_exportacion)
         return Response({"msg":"Form embarque been created", "idEmbarque": embarque.pk}, status=status.HTTP_200_OK)
 
 

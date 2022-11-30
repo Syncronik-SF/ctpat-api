@@ -65,7 +65,7 @@ class CreateEntrada(APIView):
     def post(self, request):
         embarque_id = request.data['embarque_id']
         embarque = Embarque.objects.get(pk=embarque_id)
-        numero_cajas_embarque = request.data['numero_cajas_embarque']
+        #numero_cajas_embarque = request.data['numero_cajas_embarque']
         DE_tarjeta_circulacion = request.data['DE_tarjeta_circulacion']
         DE_seguro_obligatorio = request.data['DE_seguro_obligatorio']
         DE_placas_fisicas = request.data['DE_placas_fisicas']
@@ -103,7 +103,7 @@ class CreateEntrada(APIView):
         guardia_id = request.data['guardia_entrada']
         guardia_entrada = Guardia.objects.get(pk=guardia_id)
 
-        created_entrada = Entrada.objects.create(embarque_id = embarque, numero_cajas_embarque = numero_cajas_embarque, DE_tarjeta_circulacion = DE_tarjeta_circulacion, DE_seguro_obligatorio = DE_seguro_obligatorio, DE_placas_fisicas = DE_placas_fisicas, DE_licencia_federal = DE_licencia_federal, CGTE_luces_frente = CGTE_luces_frente, CGTE_luces_traseras = CGTE_luces_traseras, CGTE_motor = CGTE_motor, CGTE_tubo_escape = CGTE_tubo_escape, CGTE_exterior_chasis = CGTE_exterior_chasis, CGTE_fugas_aceite = CGTE_fugas_aceite, CGTE_techo_int_ext = CGTE_techo_int_ext, CGTE_puertas_int_ext = CGTE_puertas_int_ext, CGTE_paredes_laterales = CGTE_paredes_laterales, CGTE_parachoques = CGTE_parachoques, CGTE_piso = CGTE_piso, CGTE_patines = CGTE_patines, CGTE_quinta_rueda = CGTE_quinta_rueda, CGTE_tanque_combustible = CGTE_tanque_combustible, CGTE_tanques_aire = CGTE_tanques_aire, CGTE_llantas_rines = CGTE_llantas_rines, CGTE_ejes = CGTE_ejes, CGTE_cabina = CGTE_cabina, CGTE_comopartimientos_herramientas = CGTE_comopartimientos_herramientas, CGTE_agricolas = CGTE_agricolas, CGTE_olores_ext = CGTE_olores_ext, CGTE_humedad = CGTE_humedad, CGTE_obj_sust_ext = CGTE_obj_sust_ext , comentarios_entrada = comentarios_entrada, guardia_entrada = guardia_entrada)
+        created_entrada = Entrada.objects.create(embarque_id = embarque, DE_tarjeta_circulacion = DE_tarjeta_circulacion, DE_seguro_obligatorio = DE_seguro_obligatorio, DE_placas_fisicas = DE_placas_fisicas, DE_licencia_federal = DE_licencia_federal, CGTE_luces_frente = CGTE_luces_frente, CGTE_luces_traseras = CGTE_luces_traseras, CGTE_motor = CGTE_motor, CGTE_tubo_escape = CGTE_tubo_escape, CGTE_exterior_chasis = CGTE_exterior_chasis, CGTE_fugas_aceite = CGTE_fugas_aceite, CGTE_techo_int_ext = CGTE_techo_int_ext, CGTE_puertas_int_ext = CGTE_puertas_int_ext, CGTE_paredes_laterales = CGTE_paredes_laterales, CGTE_parachoques = CGTE_parachoques, CGTE_piso = CGTE_piso, CGTE_patines = CGTE_patines, CGTE_quinta_rueda = CGTE_quinta_rueda, CGTE_tanque_combustible = CGTE_tanque_combustible, CGTE_tanques_aire = CGTE_tanques_aire, CGTE_llantas_rines = CGTE_llantas_rines, CGTE_ejes = CGTE_ejes, CGTE_cabina = CGTE_cabina, CGTE_comopartimientos_herramientas = CGTE_comopartimientos_herramientas, CGTE_agricolas = CGTE_agricolas, CGTE_olores_ext = CGTE_olores_ext, CGTE_humedad = CGTE_humedad, CGTE_obj_sust_ext = CGTE_obj_sust_ext , comentarios_entrada = comentarios_entrada, guardia_entrada = guardia_entrada)
         return Response({"msg":"Form Entrada has been created"}, status=status.HTTP_200_OK)
 
 class CreateRevisionCan(APIView):

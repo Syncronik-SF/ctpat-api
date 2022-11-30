@@ -109,7 +109,7 @@ class Embarque(models.Model):
 
 class Entrada(models.Model):
     embarque_id = models.ForeignKey(Embarque, on_delete=models.DO_NOTHING)
-    numero_cajas_embarque = models.CharField(max_length=40, blank=True, null=True)
+    #numero_cajas_embarque = models.CharField(max_length=40, blank=True, null=True)
     DE_tarjeta_circulacion = models.BooleanField(blank=True, null=True)
     DE_seguro_obligatorio = models.BooleanField(blank=True, null=True)
     DE_placas_fisicas = models.BooleanField(blank=True, null=True)

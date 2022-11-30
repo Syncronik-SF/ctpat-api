@@ -461,5 +461,29 @@ class Quantities(APIView):
         
 
         
+class CreateDestino(APIView):
+    def post(self, request):
+        name = request.data['name']
 
+        crate_destino = Destino.objects.create(name=name)
+        
+        return Response({"msg":"¡Destino agregado!"}, status=status.HTTP_200_OK)
 
+        
+class CreatelLinea(APIView):
+    def post(self, request):
+        name = request.data['name']
+
+        crate_linea = Linea.objects.create(name=name)
+        
+        return Response({"msg":"¡Línea agregado!"}, status=status.HTTP_200_OK)
+
+class CreateContacto(APIView):
+    def post(self, request):
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        email = request.data['email']
+
+        crate_contacto = ContactoClave.objects.create(first_name=first_name, last_name=last_name, email=email)
+        
+        return Response({"msg":"¡Contacto agregado!"}, status=status.HTTP_200_OK)

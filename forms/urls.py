@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form, ListLineas, ListDestinos, ListContactosClave
+from .views import CreateContacto, CreateDestino, CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, CreatelLinea, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form, ListLineas, ListDestinos, ListContactosClave
 
 router = DefaultRouter()
 
@@ -26,4 +26,8 @@ urlpatterns = [
     path('status/<pk>', validate_status_form),
     
     path('quantities/<str:date>/', Quantities.as_view()),
+    path('create-destino', CreateDestino.as_view()),
+    path('add-linea', CreatelLinea.as_view()),
+    path('add-contacto', CreateContacto.as_view()),
+
 ]

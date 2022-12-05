@@ -43,7 +43,7 @@ class EmbarqueSerializer(serializers.ModelSerializer):
             salida = Salida.objects.get(embarque_id=embarque.pk)
             sello = salida.DS_sello
         except:
-            sello = "Sin sello registrado"
+            sello = "No registrado"
         return sello
 # class FormSerializer(serializers.ModelSerializer):
 

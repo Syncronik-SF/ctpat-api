@@ -39,8 +39,12 @@ class EmbarqueSerializer(serializers.ModelSerializer):
     def get_sello(self, Embarque):
         idEmbarque = Embarque.pk
         embarque = Embarque.__class__.objects.get(pk = idEmbarque)
-        salida = Salida.objects.get(embarque_id=embarque.pk)
-        return salida.DS_sello
+        try:
+            salida = Salida.objects.get(embarque_id=embarque.pk)
+            sello = salida.DS_sello
+        except:
+            sello = "Sin sello registrado"
+        return sello
 # class FormSerializer(serializers.ModelSerializer):
 
 #     creado_por = serializers.SerializerMethodField('get_full_name')

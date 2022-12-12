@@ -49,8 +49,6 @@ class Embarque(models.Model):
     numero_placas_caja = models.CharField(max_length=30, blank=True, null=True)
 
     autorizado_por = models.ForeignKey(ContactoClave, blank=True, null=True, on_delete=models.DO_NOTHING)
-    factura = models.CharField(max_length=80, blank=True, null=True)
-    numero_pallets = models.CharField(max_length=30, blank=True, null=True)
     #numero_sello = models.CharField(max_length=30, blank=True, null=True)
     #sello_entregado_a = models.CharField(max_length=50, blank=True, null=True)
     destino = models.ForeignKey(Destino, on_delete=models.DO_NOTHING, blank=True, null=True)
@@ -151,6 +149,8 @@ class Salida(models.Model):
     DS_aut_embarque = models.BooleanField(blank=True, null=True)
     DS_has_sello = models.BooleanField(blank=True, null=True)
     DS_sello = models.CharField(max_length=40, blank=True, null=True)
+    factura = models.CharField(max_length=80, blank=True, null=True)
+    numero_pallets = models.CharField(max_length=30, blank=True, null=True)
 
     CGTS_luces_frente = models.BooleanField(blank=True, null=True)
     CGTS_luces_traseras = models.BooleanField(blank=True, null=True)

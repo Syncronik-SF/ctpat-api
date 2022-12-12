@@ -11,6 +11,8 @@ class EmbarqueSerializer(serializers.ModelSerializer):
     destino_name = serializers.ReadOnlyField()
     autorizado_por_full_name = serializers.ReadOnlyField()
     sello = serializers.SerializerMethodField('get_sello')
+    factura = serializers.SerializerMethodField('get_factura')
+    numero_pallets = serializers.SerializerMethodField('get_numero_pallets')
     class Meta:
         model = Embarque
         fields = ['pasos','pk','creado_por', 'guardia', 'operador', 'creado', 'modificado', 'linea_transporte','marca_tractor', 'numero_placas_tractor', 'no_economico', 'linea_de_caja', 'numero_caja', 'numero_placas_caja', 'autorizado_por_full_name', 'factura', 'numero_pallets', 'destino_name', 'es_exportacion', 'sello']
@@ -104,6 +106,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
     def get_resumen(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
+        salida = Salida.__class__.objects.get(embarque_id = form.pk)
         # tractor = Tractor.objects.get(id_formulario = form.pk)
         # cajas = Cajas.objects.get(id_formulario = form.pk)
         # ingreso = Ingreso.objects.get(id_formulario = form.pk)
@@ -124,8 +127,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Número de caja": form.numero_caja,
             "Placas de caja": form.numero_placas_caja,
             "Autorizado por": f"{form.autorizado_por.first_name} {form.autorizado_por.last_name}",
-            "Factura": form.factura,
-            "Número de pallets": form.numero_pallets,
+            "Factura": salida.factura,
+            "Número de pallets": salida.numero_pallets,
             #"Número de sello": form.numero_sello,
             #"Sello entregado a": form.sello_entregado_a,
             "Destino": form.destino.name,

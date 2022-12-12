@@ -130,9 +130,11 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             salida = Salida.objects.get(embarque_id = form.pk)
             factura = salida.factura
             numero_pallets =  salida.numero_pallets
+            sello = salida.DS_sello
         except:
             factura = "No registrada."
             numero_pallets = "No registrado"
+            sello = "No registrado"
             
         # tractor = Tractor.objects.get(id_formulario = form.pk)
         # cajas = Cajas.objects.get(id_formulario = form.pk)
@@ -156,7 +158,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Autorizado por": f"{form.autorizado_por.first_name} {form.autorizado_por.last_name}",
             "Factura": factura,
             "Número de pallets":numero_pallets,
-            #"Número de sello": form.numero_sello,
+            "Número de sello": sello,
             #"Sello entregado a": form.sello_entregado_a,
             "Destino": form.destino.name,
             "Es exportación a EU": form.es_exportacion,

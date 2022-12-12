@@ -126,7 +126,14 @@ class FormDetailsSerializer(serializers.ModelSerializer):
     def get_resumen(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
-        salida = Salida.objects.get(embarque_id = form.pk)
+        try:
+            salida = Salida.objects.get(embarque_id = form.pk)
+            factura = salida.factura
+            numero_pallets =  salida.numero_pallets
+        except:
+            factura = "No registrada."
+            numero_pallets = "No registrado"
+            
         # tractor = Tractor.objects.get(id_formulario = form.pk)
         # cajas = Cajas.objects.get(id_formulario = form.pk)
         # ingreso = Ingreso.objects.get(id_formulario = form.pk)
@@ -147,8 +154,8 @@ class FormDetailsSerializer(serializers.ModelSerializer):
             "Número de caja": form.numero_caja,
             "Placas de caja": form.numero_placas_caja,
             "Autorizado por": f"{form.autorizado_por.first_name} {form.autorizado_por.last_name}",
-            "Factura": salida.factura,
-            "Número de pallets": salida.numero_pallets,
+            "Factura": factura,
+            "Número de pallets":numero_pallets,
             #"Número de sello": form.numero_sello,
             #"Sello entregado a": form.sello_entregado_a,
             "Destino": form.destino.name,

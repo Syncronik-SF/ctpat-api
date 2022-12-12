@@ -46,8 +46,6 @@ class CreateEmbarque(APIView):
 
         autorizado_por_id = request.data['autorizado_por']
         autorizado_por = ContactoClave.objects.get(pk=autorizado_por_id)
-        factura = request.data['factura']
-        numero_pallets = request.data['numero_pallets']
         #numero_sello = request.data['numero_sello']
         #sello_entregado_a = request.data['sello_entregado_a']
         destino_id = request.data['destino']
@@ -57,7 +55,7 @@ class CreateEmbarque(APIView):
 
         embarque = Embarque.objects.create(creado_por = user, guardia = guardia, operador = operador, linea_transporte = linea_transporte, marca_tractor = marca_tractor, 
         numero_placas_tractor = numero_placas_tractor, no_economico = no_economico, linea_de_caja = linea_de_caja, numero_caja = numero_caja, numero_placas_caja = numero_placas_caja, autorizado_por = autorizado_por,
-        factura = factura, numero_pallets = numero_pallets, destino = destino, es_exportacion = es_exportacion)
+        destino = destino, es_exportacion = es_exportacion)
         return Response({"msg":"Form embarque been created", "idEmbarque": embarque.pk}, status=status.HTTP_200_OK)
 
 
@@ -144,6 +142,8 @@ class CreateSalida(APIView):
         DS_aut_embarque = request.data['DS_aut_embarque']
         DS_has_sello = request.data['DS_has_sello']
         DS_sello = request.data['DS_sello']
+        factura = request.data['factura']
+        numero_pallets = request.data['numero_pallets']
         CGTS_luces_frente = request.data['CGTS_luces_frente']
         CGTS_luces_traseras = request.data['CGTS_luces_traseras']
         CGTS_motor = request.data['CGTS_motor']
@@ -172,7 +172,7 @@ class CreateSalida(APIView):
         guardia_id = request.data['guardia_entrada']
         guardia_salida = Guardia.objects.get(pk=guardia_id)
 
-        created_salida = Salida.objects.create(embarque_id = embarque, DS_doc_embarque = DS_doc_embarque, DS_aut_embarque = DS_aut_embarque, DS_has_sello = DS_has_sello, DS_sello = DS_sello,  CGTS_luces_frente = CGTS_luces_frente, CGTS_luces_traseras = CGTS_luces_traseras, CGTS_motor = CGTS_motor, CGTS_tubo_escape = CGTS_tubo_escape, CGTS_exterior_chasis = CGTS_exterior_chasis, CGTS_fugas_aceite = CGTS_fugas_aceite, CGTS_techo_int_ext = CGTS_techo_int_ext, CGTS_puertas_int_ext = CGTS_puertas_int_ext, CGTS_paredes_laterales = CGTS_paredes_laterales, CGTS_parachoques = CGTS_parachoques, CGTS_piso = CGTS_piso, CGTS_patines = CGTS_patines, CGTS_quinta_rueda = CGTS_quinta_rueda, CGTS_tanque_combustible = CGTS_tanque_combustible, CGTS_tanques_aire = CGTS_tanques_aire, CGTS_llantas_rines = CGTS_llantas_rines, CGTS_ejes = CGTS_ejes, CGTS_cabina = CGTS_cabina, CGTS_comopartimientos_herramientas = CGTS_comopartimientos_herramientas, CGTS_agricolas = CGTS_agricolas, CGTS_olores_ext = CGTS_olores_ext, CGTS_humedad = CGTS_humedad, CGTS_obj_sust_ext = CGTS_obj_sust_ext , comentarios_salida = comentarios_salida, guardia_salida = guardia_salida)
+        created_salida = Salida.objects.create(embarque_id = embarque, DS_doc_embarque = DS_doc_embarque, DS_aut_embarque = DS_aut_embarque, DS_has_sello = DS_has_sello, DS_sello = DS_sello, factura = factura, numero_pallets = numero_pallets, CGTS_luces_frente = CGTS_luces_frente, CGTS_luces_traseras = CGTS_luces_traseras, CGTS_motor = CGTS_motor, CGTS_tubo_escape = CGTS_tubo_escape, CGTS_exterior_chasis = CGTS_exterior_chasis, CGTS_fugas_aceite = CGTS_fugas_aceite, CGTS_techo_int_ext = CGTS_techo_int_ext, CGTS_puertas_int_ext = CGTS_puertas_int_ext, CGTS_paredes_laterales = CGTS_paredes_laterales, CGTS_parachoques = CGTS_parachoques, CGTS_piso = CGTS_piso, CGTS_patines = CGTS_patines, CGTS_quinta_rueda = CGTS_quinta_rueda, CGTS_tanque_combustible = CGTS_tanque_combustible, CGTS_tanques_aire = CGTS_tanques_aire, CGTS_llantas_rines = CGTS_llantas_rines, CGTS_ejes = CGTS_ejes, CGTS_cabina = CGTS_cabina, CGTS_comopartimientos_herramientas = CGTS_comopartimientos_herramientas, CGTS_agricolas = CGTS_agricolas, CGTS_olores_ext = CGTS_olores_ext, CGTS_humedad = CGTS_humedad, CGTS_obj_sust_ext = CGTS_obj_sust_ext , comentarios_salida = comentarios_salida, guardia_salida = guardia_salida)
 
         return Response({"msg":"Form Salida has been created"}, status=status.HTTP_200_OK)
 

@@ -47,6 +47,16 @@ class EmbarqueSerializer(serializers.ModelSerializer):
         except:
             sello = "No registrado"
         return sello
+    
+    def get_factura(self, Embarque):
+        idEmbarque = Embarque.pk
+        embarque = Embarque.__class__.objects.get(pk = idEmbarque)
+        try:
+            salida = Salida.objects.get(embarque_id=embarque.pk)
+            factura = salida.factura
+        except:
+            factura = "No registrada"
+        return factura
 # class FormSerializer(serializers.ModelSerializer):
 
 #     creado_por = serializers.SerializerMethodField('get_full_name')

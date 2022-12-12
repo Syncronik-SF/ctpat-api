@@ -126,7 +126,7 @@ class FormDetailsSerializer(serializers.ModelSerializer):
     def get_resumen(self, Embarque):
         shipment = self.context['request'].GET.get('shipment')
         form = Embarque.__class__.objects.get(pk = shipment)
-        salida = Salida.__class__.objects.get(embarque_id = form.pk)
+        salida = Salida.objects.get(embarque_id = form.pk)
         # tractor = Tractor.objects.get(id_formulario = form.pk)
         # cajas = Cajas.objects.get(id_formulario = form.pk)
         # ingreso = Ingreso.objects.get(id_formulario = form.pk)

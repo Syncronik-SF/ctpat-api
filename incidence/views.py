@@ -28,13 +28,20 @@ def incidence_post(request):
             receiver = embarque.autorizado_por.email
             incidence_db = Incidence.objects.get(pk = incidence['id'])
             subject = f"T-Compliance App: Nuevo reporte de incidencia (#{incidence_db.pk})"
-            image_data = incidence_db.picture.open(mode='rb').read()
+           
             content = f"Nuevo reporte de incidencia registrado.\n\nNúmero de caso: #{incidence_db.pk}\nDestino del Embarque: {embarque.destino_name}\nPlacas: {embarque.numero_placas_tractor}\nLinea de Transporte: {embarque.linea_name}\nNombre del Operador: {embarque.operador}\nTipo de Incidencia: {incidence_db.incidence_type.type}\nDetectado en: {incidence_db.origen}\nDescripción del caso: {incidence_db.descripcion}\nReportado por: {incidence_db.user.get_full_name_user()}\nFecha y hora del reporte: {incidence_db.date} {incidence_db.hour}"
             print(content)
-            message = generate_message(subject, message = content, receiver="ctpat-mx@nidec-ga.com", sender = SENDER)
-            message.add_attachment(image_data, maintype='image', subtype=imghdr.what(None, image_data))
+            message = generate_message(subject, message = content, receiver="ctpat-mx@nidec-ga.com", sender = "ctpat-mx@nidec-ga.com")
+            try:
+                image_data = incidence_db.picture.open(mode='rb').read()
+                if image_data != None:
+                    message.add_attachment(image_data, maintype='image', subtype=imghdr.what(None, image_data))
+                else:
+                    pass
+            except:
+                pass
             print(message)
-            send_mail(sender = SENDER, password= PASSWORD, receiver = "ctpat-mx@nidec-ga.com", msg = message)
+            send_mail(sender = SENDER, password= PASSWORD, receiver = "hever.rubio@syncronik.com", msg = message)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

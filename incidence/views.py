@@ -41,7 +41,7 @@ def incidence_post(request):
             except:
                 pass
             print(message)
-            send_mail(sender = SENDER, password= PASSWORD, receiver = "hever.rubio@syncronik.com", msg = message)
+            send_mail(sender = SENDER, password= PASSWORD, receiver = "ctpat-mx@nidec-ga.com", msg = message)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

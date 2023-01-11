@@ -29,7 +29,7 @@ def incidence_post(request):
             incidence_db = Incidence.objects.get(pk = incidence['id'])
             subject = f"T-Compliance App: Nuevo reporte de incidencia (#{incidence_db.pk})"
             image_data = incidence_db.picture.open(mode='rb').read()
-            content = f"Nuevo reporte de incidencia registrado.\n\nNúmero de caso: #{incidence_db.pk}\nDestino del Embarque: {embarque.destino_name}\nPlacas: {embarque.numero_placas_tractor}\nLinea de Transporte: {embarque.linea_name}\nNombre del Operador: {embarque.operador}\nTipo de Incidencia: {incidence_db.incidence_type.type}\nDescripción del caso: {incidence_db.descripcion}\nReportado por: {incidence_db.user.get_full_name_user()}\nFecha y hora del reporte: {incidence_db.date} {incidence_db.hour}"
+            content = f"Nuevo reporte de incidencia registrado.\n\nNúmero de caso: #{incidence_db.pk}\nDestino del Embarque: {embarque.destino_name}\nPlacas: {embarque.numero_placas_tractor}\nLinea de Transporte: {embarque.linea_name}\nNombre del Operador: {embarque.operador}\nTipo de Incidencia: {incidence_db.incidence_type.type}\nDetectado en: {incidence_db.origen}\nDescripción del caso: {incidence_db.descripcion}\nReportado por: {incidence_db.user.get_full_name_user()}\nFecha y hora del reporte: {incidence_db.date} {incidence_db.hour}"
             print(content)
             message = generate_message(subject, message = content, receiver=receiver, sender = SENDER)
             message.add_attachment(image_data, maintype='image', subtype=imghdr.what(None, image_data))

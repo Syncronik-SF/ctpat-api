@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
     """
         Profile user model
     """
-    email = models.EmailField(max_length=150, unique=False)
+    email = models.EmailField(max_length=150, unique=True)
     phone = models.CharField(max_length=120, blank=True)
     job_title = models.CharField(max_length=40, null=True, blank=True)
     is_online_in_app = models.BooleanField(default=False, null=True)
@@ -23,7 +23,8 @@ class CustomUser(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'password']
 
     def get_full_name_user(self):
         return f"{self.first_name} {self.last_name}"

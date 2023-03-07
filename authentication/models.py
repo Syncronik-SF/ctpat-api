@@ -24,7 +24,6 @@ class CustomUser(AbstractUser):
     modified = models.DateTimeField(auto_now=True)
     
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username', 'password']
 
     def get_full_name_user(self):
         return f"{self.first_name} {self.last_name}"

@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['username', 'password']
 
     def get_full_name_user(self):

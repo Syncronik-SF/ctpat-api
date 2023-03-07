@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
     """
         Profile user model
     """
-    email = models.EmailField(max_length=150, unique=True)
+    email = models.EmailField(max_length=150, unique=False)
     phone = models.CharField(max_length=120, blank=True)
     job_title = models.CharField(max_length=40, null=True, blank=True)
     is_online_in_app = models.BooleanField(default=False, null=True)

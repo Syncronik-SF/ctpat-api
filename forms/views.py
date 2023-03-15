@@ -1,6 +1,7 @@
 import json
 
 from django.shortcuts import render
+from django.views import View
 from django.http.response import HttpResponse
 
 from rest_framework import status, generics
@@ -12,8 +13,9 @@ from authentication.models import CustomUser
 from forms.serializer import EmbarqueSerializer, FormDetailsSerializer, GuardiaSerializer, LineaSerializer, DestinoSerializer, ContactoClaveSerializer
 from incidence.models import Incidence
 #from .serializer import FormSerializer, FormDetailsSerializer
-from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida, Destino, ContactoClave
+from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida, Destino, ContactoClave, Reporte
 from rest_framework_api_key.permissions import HasAPIKey
+
 
 
 from rest_framework.decorators import api_view
@@ -459,7 +461,26 @@ class Quantities(APIView):
         ]
         return Response(data, status = status.HTTP_200_OK)
         
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from io import BytesIO
+from django.core.files import File
 
-        
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
 
-
+#Opens up page as PDF
+class ViewPDF(View):
+    def get(self, request, *args, **kwargs):
+        data = {}
+        pdf = render_to_pdf('reports/reporte_ingreso.html', data)
+        filename = "dummy.pdf"
+        reporte = Reporte()
+        reporte.pdf.save(filename, File(BytesIO(pdf.content)))
+        return render(request, 'reports/reporte_ingreso.html', data)

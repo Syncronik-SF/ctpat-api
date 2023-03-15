@@ -179,7 +179,8 @@ class Salida(models.Model):
     comentarios_salida = models.CharField(max_length=50, blank=True, null=True)
     guardia_salida = models.ForeignKey(Guardia, on_delete=models.DO_NOTHING)
 
-
+class Reporte(models.Model):
+    pdf = models.FileField(upload_to="media")
 # class CheckList(models.Model):
 #     """
 #         Modelo para almacenar el documento CheckList

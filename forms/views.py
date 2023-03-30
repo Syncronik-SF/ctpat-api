@@ -493,7 +493,7 @@ class ViewPDF(APIView):
 
 class RenderPDFView(APIView):
     def get(self, request, *args, **kwargs):
-        id_shipment = request.GET.get('report_id')
+        id_shipment = request.GET.get('report-id')
         embarque = Embarque.objects.get(pk=int(id_shipment))
         entrada = Entrada.objects.get(embarque_id = embarque.pk)
         salida = Salida.objects.get(embarque_id = embarque.pk)

@@ -28,5 +28,5 @@ urlpatterns = [
     
     path('quantities/<str:date>/', Quantities.as_view()),
     path('generate_pdf/', ViewPDF.as_view(), name="pdf_view"),
-    path('pdf_view/', RenderPDFView.as_view(), name="render_pdf")
+    path('pdf_view', RenderPDFView.as_view(), name="render_pdf")
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

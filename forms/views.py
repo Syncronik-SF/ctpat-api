@@ -19,7 +19,13 @@ from rest_framework_api_key.permissions import HasAPIKey
 
 from rest_framework.decorators import api_view
 import requests
-from .utils import PDFConverter, convert_boolean_to_yes_or_no, convert_boolean_to_ok_or_no
+from .utils import PDFConverter, convert_boolean_to_yes_or_no, convert_boolean_to_ok_or_no, format_datetime
+from .sender.email_sender import EmailSender
+
+SENDER = "mx-ena-it@nidec-ga.com"
+PASSWORD = "mtxehlzhotoqfeck"
+
+email_sender = EmailSender(sender=SENDER, password=PASSWORD)
 # Create your views here.
 def ping(request):
     responseData = {"msg":f"Pong", "status_code":200}
@@ -175,8 +181,14 @@ class CreateSalida(APIView):
         guardia_id = request.data['guardia_entrada']
         guardia_salida = Guardia.objects.get(pk=guardia_id)
 
+        subject = f"T-Compliance App: Nuevo reporte de Ingreso Vehicular (#{embarque_id})"
+        content = f"""Nuevo reporte de Ingreso Vehicular.
+            \nNúmero de reporte: #{embarque_id} \nDestino del Embarque: {embarque.destino_name} \nPlacas: {embarque.numero_placas_tractor} \nLinea de Transporte: {embarque.linea_name} \nNombre del Operador: {embarque.operador} \nReportado por: {embarque.creado_por.get_full_name_user()} \nFecha del reporte: {format_datetime(embarque.creado)} \nConsulta el reporte completo: http://ctpat.syncronik.com/api/v1/pdf_view?report-id={embarque_id}
+            """
+        print(content)
+        email_sender.send_mail(receiver="hever.rubio@syncronik.com", subject=subject, message=content)
         created_salida = Salida.objects.create(embarque_id = embarque, DS_doc_embarque = DS_doc_embarque, DS_aut_embarque = DS_aut_embarque, DS_has_sello = DS_has_sello, DS_sello = DS_sello, factura = factura, numero_pallets = numero_pallets, CGTS_luces_frente = CGTS_luces_frente, CGTS_luces_traseras = CGTS_luces_traseras, CGTS_motor = CGTS_motor, CGTS_tubo_escape = CGTS_tubo_escape, CGTS_exterior_chasis = CGTS_exterior_chasis, CGTS_fugas_aceite = CGTS_fugas_aceite, CGTS_techo_int_ext = CGTS_techo_int_ext, CGTS_puertas_int_ext = CGTS_puertas_int_ext, CGTS_paredes_laterales = CGTS_paredes_laterales, CGTS_parachoques = CGTS_parachoques, CGTS_piso = CGTS_piso, CGTS_patines = CGTS_patines, CGTS_quinta_rueda = CGTS_quinta_rueda, CGTS_tanque_combustible = CGTS_tanque_combustible, CGTS_tanques_aire = CGTS_tanques_aire, CGTS_llantas_rines = CGTS_llantas_rines, CGTS_ejes = CGTS_ejes, CGTS_cabina = CGTS_cabina, CGTS_comopartimientos_herramientas = CGTS_comopartimientos_herramientas, CGTS_agricolas = CGTS_agricolas, CGTS_olores_ext = CGTS_olores_ext, CGTS_humedad = CGTS_humedad, CGTS_obj_sust_ext = CGTS_obj_sust_ext , comentarios_salida = comentarios_salida, guardia_salida = guardia_salida)
-
+        
         return Response({"msg":"Form Salida has been created"}, status=status.HTTP_200_OK)
 
 

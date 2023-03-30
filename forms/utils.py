@@ -63,3 +63,8 @@ def convert_boolean_to_yes_or_no(value):
 
 def convert_boolean_to_ok_or_no(value):
     return "OK" if value else "Indicencia presentada"
+
+import datetime
+
+def format_datetime(dt):
+    return dt.strftime('%d/%m/%Y a las %H:%M hrs')

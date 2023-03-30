@@ -59,6 +59,10 @@ class Embarque(models.Model):
     @property
     def linea_name(self):
         return self.linea_transporte.name
+    
+    @property
+    def linea_caja_name(self):
+        return self.linea_de_caja.name
 
     @property
     def destino_name(self):

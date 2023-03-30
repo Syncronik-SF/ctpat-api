@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.shortcuts import render
 from django.views import View
@@ -16,9 +17,9 @@ from incidence.models import Incidence
 from .models import Embarque, Entrada, Feedback, Guardia, Linea, RevisionCanina, Salida, Destino, ContactoClave, Reporte
 from rest_framework_api_key.permissions import HasAPIKey
 
-
-
 from rest_framework.decorators import api_view
+import requests
+from .utils import PDFConverter, convert_boolean_to_yes_or_no, convert_boolean_to_ok_or_no
 # Create your views here.
 def ping(request):
     responseData = {"msg":f"Pong", "status_code":200}
@@ -460,27 +461,87 @@ class Quantities(APIView):
             }
         ]
         return Response(data, status = status.HTTP_200_OK)
-        
-from xhtml2pdf import pisa
-from django.template.loader import get_template
-from io import BytesIO
-from django.core.files import File
-
-def render_to_pdf(template_src, context_dict={}):
-	template = get_template(template_src)
-	html  = template.render(context_dict)
-	result = BytesIO()
-	pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-	if not pdf.err:
-		return HttpResponse(result.getvalue(), content_type='application/pdf')
-	return None
-
 #Opens up page as PDF
-class ViewPDF(View):
+class ViewPDF(APIView):
     def get(self, request, *args, **kwargs):
-        data = {}
-        pdf = render_to_pdf('reports/reporte_ingreso.html', data)
-        filename = "dummy.pdf"
-        reporte = Reporte()
-        reporte.pdf.save(filename, File(BytesIO(pdf.content)))
-        return render(request, 'reports/reporte_ingreso.html', data)
+        embarque = Embarque.objects.get(pk=1)
+        context = {
+            "variable": "pdf_converter",
+            "fecha_creacion": embarque.creado,
+            "creado_por": embarque.creado_por.get_full_name_user(),
+            "operador": embarque.operador,
+            "linea_transporte": embarque.linea_name,
+            "marca_tractor": embarque.marca_tractor,
+            "numero_placas_tractor": embarque.numero_placas_tractor,
+            "no_economico": embarque.no_economico,
+            "linea_de_caja": embarque.linea_caja_name,
+            "numero_caja": embarque.numero_caja,
+            "numero_placas_caja": embarque.numero_placas_caja,
+            "autorizado_por": embarque.autorizado_por_full_name,
+            "destino": embarque.destino_name,
+            "es_exportacion": convert_boolean_to_yes_or_no(embarque.es_exportacion),
+        }
+
+
+        pdf_converter = PDFConverter()
+        template_path = 'reports/reporte_ingreso.html'  # Reemplazar con la ruta de la plantilla HTML
+        output_directory = 'descargas'  # Especificar el directorio de salida
+        filename = 'Ingreso-Vehicular-4.pdf'
+        pdf_converter.render_and_convert(context, filename, template_path, output_directory)
+
+        return Response({"msg":"Form embarque been created"}, status=status.HTTP_200_OK)
+
+class RenderPDFView(APIView):
+    def get(self, request, *args, **kwargs):
+        id_shipment = request.GET.get('report_id')
+        embarque = Embarque.objects.get(pk=int(id_shipment))
+        entrada = Entrada.objects.get(embarque_id = embarque.pk)
+        salida = Salida.objects.get(embarque_id = embarque.pk)
+        context = {
+            "variable": "pdf_converter",
+            "fecha_creacion": embarque.creado,
+            "creado_por": embarque.creado_por.get_full_name_user(),
+            "operador": embarque.operador,
+            "linea_transporte": embarque.linea_name,
+            "marca_tractor": embarque.marca_tractor,
+            "numero_placas_tractor": embarque.numero_placas_tractor,
+            "no_economico": embarque.no_economico,
+            "linea_de_caja": embarque.linea_caja_name,
+            "numero_caja": embarque.numero_caja,
+            "numero_placas_caja": embarque.numero_placas_caja,
+            "autorizado_por": embarque.autorizado_por_full_name,
+            "destino": embarque.destino_name,
+            "es_exportacion": convert_boolean_to_yes_or_no(embarque.es_exportacion),
+            "DE_tarjeta_circulacion": convert_boolean_to_yes_or_no(entrada.DE_tarjeta_circulacion),
+            "DE_seguro_obligatorio": convert_boolean_to_yes_or_no(entrada.DE_seguro_obligatorio),
+            "DE_licencia_federal": convert_boolean_to_yes_or_no(entrada.DE_licencia_federal),
+            "CGTE_luces_frente": convert_boolean_to_ok_or_no(entrada.CGTE_luces_frente),
+            "CGTE_luces_traseras": convert_boolean_to_ok_or_no(entrada.CGTE_luces_traseras),
+            "CGTE_motor": convert_boolean_to_ok_or_no(entrada.CGTE_motor),
+            "CGTE_tubo_escape": convert_boolean_to_ok_or_no(entrada.CGTE_tubo_escape),
+            "CGTE_exterior_chasis": convert_boolean_to_ok_or_no(entrada.CGTE_exterior_chasis),
+            "CGTE_fugas_aceite": convert_boolean_to_ok_or_no(entrada.CGTE_fugas_aceite),
+            "CGTE_techo_int_ext": convert_boolean_to_ok_or_no(entrada.CGTE_techo_int_ext),
+            "CGTE_puertas_int_ext": convert_boolean_to_ok_or_no(entrada.CGTE_puertas_int_ext),
+            "CGTE_paredes_laterales": convert_boolean_to_ok_or_no(entrada.CGTE_paredes_laterales),
+            "CGTE_parachoques": convert_boolean_to_ok_or_no(entrada.CGTE_parachoques),
+            "CGTE_piso": convert_boolean_to_ok_or_no(entrada.CGTE_piso),
+            "CGTE_patines": convert_boolean_to_ok_or_no(entrada.CGTE_patines),
+            "CGTE_quinta_rueda": convert_boolean_to_ok_or_no(entrada.CGTE_quinta_rueda),
+            "CGTE_tanque_combustible": convert_boolean_to_ok_or_no(entrada.CGTE_tanque_combustible),
+            "CGTE_tanques_aire": convert_boolean_to_ok_or_no(entrada.CGTE_tanques_aire),
+            "CGTE_llantas_rines": convert_boolean_to_ok_or_no(entrada.CGTE_llantas_rines),
+            "CGTE_ejes": convert_boolean_to_ok_or_no(entrada.CGTE_ejes),
+            "CGTE_cabina": convert_boolean_to_ok_or_no(entrada.CGTE_cabina),
+            "CGTE_comopartimientos_herramientas": convert_boolean_to_ok_or_no(entrada.CGTE_comopartimientos_herramientas),
+            "CGTE_agricolas": convert_boolean_to_ok_or_no(entrada.CGTE_agricolas),
+            "CGTE_olores_ext": convert_boolean_to_ok_or_no(entrada.CGTE_olores_ext),
+            "CGTE_humedad": convert_boolean_to_ok_or_no(entrada.CGTE_humedad),
+            "CGTE_obj_sust_ext": convert_boolean_to_ok_or_no(entrada.CGTE_obj_sust_ext),
+            "factura": salida.factura,
+            "numero_pallets": salida.numero_pallets
+        }
+
+        template_path = 'reports/reporte_ingreso.html'  # Reemplazar con la ruta de la plantilla HTML
+        
+        return render(request, template_path, context)

@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form, ListLineas, ListDestinos, ListContactosClave, ViewPDF
+from .views import CreateEmbarque, CreateEntrada, CreateRevisionCan, CreateSalida, GetFormDetails, GetForms, GetLastFiveForms, ListGuardias, Quantities, SaveFeedback, forms_created, ping, validate_status_form, ListLineas, ListDestinos, ListContactosClave, ViewPDF, RenderPDFView
 from django.conf import settings
 from django.conf.urls.static import static
 router = DefaultRouter()
@@ -27,5 +27,6 @@ urlpatterns = [
     path('status/<pk>', validate_status_form),
     
     path('quantities/<str:date>/', Quantities.as_view()),
-    path('pdf_view/', ViewPDF.as_view(), name="pdf_view"),
+    path('generate_pdf/', ViewPDF.as_view(), name="pdf_view"),
+    path('pdf_view/', RenderPDFView.as_view(), name="render_pdf")
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

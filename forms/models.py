@@ -181,6 +181,7 @@ class Salida(models.Model):
     CGTS_obj_sust_ext = models.BooleanField(blank=True, null=True)
 
     comentarios_salida = models.CharField(max_length=50, blank=True, null=True)
+    fecha_salida = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     guardia_salida = models.ForeignKey(Guardia, on_delete=models.DO_NOTHING)
 
 class Reporte(models.Model):

@@ -22,6 +22,8 @@ import requests
 from .utils import PDFConverter, convert_boolean_to_yes_or_no, convert_boolean_to_ok_or_no, format_datetime
 from .sender.email_sender import EmailSender
 
+from datetime import datetime
+
 SENDER = "mx-ena-it@nidec-ga.com"
 PASSWORD = "mtxehlzhotoqfeck"
 
@@ -523,6 +525,8 @@ class RenderPDFView(APIView):
             "numero_placas_caja": embarque.numero_placas_caja,
             "autorizado_por": embarque.autorizado_por_full_name,
             "destino": embarque.destino_name,
+            "sello": salida.DS_sello,
+            "fecha_salida": salida.fecha_salida,
             "es_exportacion": convert_boolean_to_yes_or_no(embarque.es_exportacion),
             "DE_tarjeta_circulacion": convert_boolean_to_yes_or_no(entrada.DE_tarjeta_circulacion),
             "DE_seguro_obligatorio": convert_boolean_to_yes_or_no(entrada.DE_seguro_obligatorio),
